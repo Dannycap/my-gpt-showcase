@@ -4,90 +4,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI-Powered Investment Tools</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: sans-serif;
-      background: #f5f5f5;
-      color: #333;
-    }
-    h1 {
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .gallery {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .card button {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
-    .card img {
-      width: 64px;
-      height: 64px;
-      object-fit: contain;
-    }
-    .card div {
-      margin-top: 0.5rem;
-      font-weight: bold;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
 
-  <h1>AI-Powered Investment Tools</h1>
+  <!-- Header -->
+  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
+    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-semibold">AI-Invest</div>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
+        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">Prompting</a>
+      </nav>
+    </div>
+  </header>
 
-  <div class="gallery">
-    <div class="card">
-      <button onclick="window.open('https://chat.openai.com/share/YOUR_ETF_ID', '_blank')">
-        <img src="icon.png" alt="ETF Comparator Icon" />
-      </button>
-      <div>ETF Comparator</div>
+  <main class="pt-24 w-full max-w-4xl flex flex-col items-center gap-6 p-4">
+
+    <!-- Main Headline -->
+    <h1 class="text-2xl font-bold text-center text-gray-800">
+      Leveraging ChatGPT for Investment Finance
+    </h1>
+
+    <!-- GPT Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+      <a href="features.html#index-etf" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+        <img src="icon.png" alt="ETF Comparator" class="w-12 h-12 mb-2"/>
+        <span class="text-sm font-medium">ETF Comparator</span>
+      </a>
+      <a href="features.html#index-sentiment" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+        <img src="icon.png" alt="Financial Sentiment Analyst" class="w-12 h-12 mb-2"/>
+        <span class="text-sm font-medium">Financial Sentiment Analyst</span>
+      </a>
+      <a href="features.html#index-swot" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+        <img src="icon.png" alt="Investment SWOT Strategist" class="w-12 h-12 mb-2"/>
+        <span class="text-sm font-medium">Investment SWOT Strategist</span>
+      </a>
+      <a href="features.html#index-optimizer" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+        <img src="icon.png" alt="Portfolio Optimizer Pro" class="w-12 h-12 mb-2"/>
+        <span class="text-sm font-medium">Portfolio Optimizer Pro</span>
+      </a>
     </div>
-    <div class="card">
-      <button onclick="window.open('https://chat.openai.com/share/YOUR_SENTIMENT_ID', '_blank')">
-        <img src="icon.png" alt="Earnings Sentiment Analyzer Icon" />
-      </button>
-      <div>Earnings Sentiment Analyzer</div>
+
+    <!-- Info Boxes -->
+    <div class="flex flex-wrap gap-6 justify-center w-full">
+      <div class="bg-white p-4 rounded-lg shadow-sm max-w-xs">
+        <h2 class="font-semibold mb-2">Capabilities &amp; Limitations</h2>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Analyze historical data and trends.</li>
+          <li>Summarize earnings calls and reports.</li>
+          <li>Generate research outlines and compare financial products.</li>
+          <li>Provide general guidance on investment concepts.</li>
+        </ul>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow-sm max-w-xs">
+        <h2 class="font-semibold mb-2">Choosing the Right Model</h2>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li><strong>GPT-3.5:</strong> Fast &amp; cost-effective.</li>
+          <li><strong>GPT-4:</strong> Complex reasoning.</li>
+          <li><strong>GPT-4 Turbo:</strong> Lower latency.</li>
+        </ul>
+      </div>
     </div>
-    <div class="card">
-      <button onclick="window.open('https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist', '_blank')">
-        <img src="icon.png" alt="Investment SWOT Strategist Icon" />
-      </button>
-      <div>Investment SWOT Strategist</div>
-    </div>
-    <div class="card">
-      <button onclick="window.open('https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant', '_blank')">
-        <img src="icon.png" alt="Portfolio Optimizer Pro Icon" />
-      </button>
-      <div>Portfolio Optimizer Pro</div>
-    </div>
-  </div>
+
+  </main>
+
+  <!-- Affiliate + Disclaimer -->
+  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
+    <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
+    <p class="mt-2 font-semibold">Disclosure:</p>
+    <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+  </footer>
 
 </body>
 </html>
