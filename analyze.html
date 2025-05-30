@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Ticker Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google AdSense -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7032908618576389"
+          crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col items-center p-4">
+
+  <h1 class="text-2xl font-bold mb-4">Live Ticker Analysis</h1>
+
+  <form id="analysis-form" class="flex flex-col items-center gap-2 w-full max-w-md">
+    <input
+      id="ticker"
+      type="text"
+      placeholder="Enter stock ticker (e.g. AAPL)"
+      class="w-full p-2 border rounded"
+      required
+    />
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    >Analyze</button>
+  </form>
+
+  <div id="result" class="mt-6 w-full max-w-md bg-white p-4 rounded shadow-sm whitespace-pre-wrap"></div>
+
+  <script>
+    const form = document.getElementById('analysis-form');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const ticker = document.getElementById('ticker').value.trim().toUpperCase();
+      resultDiv.textContent = 'Loading…';
+
+      try {
+        const response = await fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ticker })
+        });
+        const data = await response.json();
+        if (data.choices && data.choices[0].message) {
+          resultDiv.textContent = data.choices[0].message.content;
+        } else if (data.error) {
+          resultDiv.textContent = 'Error: ' + data.error;
+        } else {
+          resultDiv.textContent = JSON.stringify(data, null, 2);
+        }
+      } catch (err) {
+        resultDiv.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
