@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Prompting Guide - AI Investment Finance</title>
+  <title>How-To Guide - AI Investment Finance</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
@@ -15,75 +15,159 @@
       <nav class="space-x-4">
         <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
         <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
-        <a href="prompt.html" class="text-blue-600 font-medium">Prompting</a>
+        <a href="prompt.html" class="text-blue-600 font-medium">How-To</a>
         <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
       </nav>
     </div>
   </header>
 
-  <main class="pt-20 w-full max-w-4xl p-4 space-y-8">
-    <h1 class="text-2xl font-bold text-center">Prompting Guide for Investment Finance</h1>
+  <main class="pt-24 w-full max-w-4xl p-4 space-y-12">
+    <h1 class="text-3xl font-bold text-center">How-To Guide for Investment Finance</h1>
 
-    <!-- Core Techniques -->
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">1. Clarity &amp; Specificity</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li>“Act as an equity analyst with 10 years’ experience.”</li>
-        <li>“List the top 5 ETFs by 5-year annualized return.”</li>
-      </ul>
+    <!-- Deep Research Capabilities -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4">🧠 Run Deep Research with AI Tools</h2>
+      <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
+        <img src="/mnt/data/28fab351-faad-4acd-9ad2-37cc5823b90e.png" alt="Deep Research Tools UI" class="rounded border shadow w-64 mx-auto">
+        <p class="text-sm text-gray-700 text-center">The tools available within ChatGPT for investment workflows now include:</p>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li><strong>Create an image:</strong> Visualize concepts, strategies, or charts for presentations or reports.</li>
+          <li><strong>Search the web:</strong> Access real-time financial news, macroeconomic data, or company updates.</li>
+          <li><strong>Write or code:</strong> Generate Python, SQL, or Markdown scripts for data analysis and reporting.</li>
+          <li><strong>Run deep research:</strong> Combine reasoning, summarization, and citations to synthesize in-depth financial insights.</li>
+        </ul>
+        <p class="text-sm text-gray-700">These tools are especially useful for users building reports, conducting valuations, or monitoring key financial signals with up-to-date context.</p>
+      </div>
     </section>
 
+    <!-- Choosing the Right Model -->
     <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">2. Explicit Constraints</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li>“Provide a table with columns: Ticker, P/E, Dividend Yield, Expense Ratio.”</li>
-        <li>“Summarize in no more than three bullet points.”</li>
-      </ul>
+      <h2 class="text-xl font-semibold mb-4">Choosing the Right GPT Model for Finance</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">🔍 Use Case 1: Analyzing a Stock</h3>
+          <ul class="list-disc list-inside text-sm mb-2">
+            <li>Extracting financial ratios from 10-Ks or earnings transcripts</li>
+            <li>Evaluating price performance, volatility, or comparing to benchmarks</li>
+            <li>Writing investment theses or summarizing financial statements</li>
+          </ul>
+          <p class="text-sm"><strong>Best Model:</strong> GPT-4 Turbo</p>
+          <p class="text-sm"><strong>Why?</strong> Fast, low-latency, handles complex documents and longer context.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">💬 Use Case 2: Sentiment Analysis</h3>
+          <ul class="list-disc list-inside text-sm mb-2">
+            <li>Interpret investor tone and comments from forums or social media</li>
+            <li>Summarize bullish/bearish perspectives and sector shifts</li>
+          </ul>
+          <p class="text-sm"><strong>Best Model:</strong> GPT-4 Turbo or GPT-4</p>
+          <p class="text-sm"><strong>Why?</strong> More accurate understanding of nuanced and coded language than GPT-3.5</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">💼 Use Case 3: Portfolio Screening</h3>
+          <ul class="list-disc list-inside text-sm mb-2">
+            <li>Screen stocks (e.g. P/E < 15, ROE > 10%)</li>
+            <li>Generate summaries or help draft investment memos</li>
+          </ul>
+          <p class="text-sm"><strong>Best Model:</strong> GPT-3.5</p>
+          <p class="text-sm"><strong>Why?</strong> Fast, cost-effective, suitable for structured tasks but less robust with complex logic</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2">✅ Summary Table</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm text-left border border-gray-300">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="border px-3 py-2">Task</th>
+                  <th class="border px-3 py-2">Best Model</th>
+                  <th class="border px-3 py-2">Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-3 py-2">Deep stock analysis</td>
+                  <td class="border px-3 py-2">GPT-4 Turbo</td>
+                  <td class="border px-3 py-2">Handles complex financial documents efficiently</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="border px-3 py-2">Sentiment analysis</td>
+                  <td class="border px-3 py-2">GPT-4 / Turbo</td>
+                  <td class="border px-3 py-2">Captures nuance, sarcasm, and context better than GPT-3.5</td>
+                </tr>
+                <tr>
+                  <td class="border px-3 py-2">Simple screening</td>
+                  <td class="border px-3 py-2">GPT-3.5</td>
+                  <td class="border px-3 py-2">Cost-effective for basic structured analysis</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- Prompting Techniques -->
     <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">3. Prompt Chaining</h2>
-      <ol class="list-decimal list-inside text-sm space-y-1">
-        <li>“Analyze the revenue growth of AAPL over 5 years.”</li>
-        <li>“Evaluate its debt-to-equity trend.”</li>
-        <li>“Based on these, suggest potential risks.”</li>
-      </ol>
+      <h2 class="text-xl font-semibold mb-2">Prompting Techniques</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">1. Clarity &amp; Specificity</h3>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>“Act as an equity analyst with 10 years’ experience.”</li>
+            <li>“List the top 5 ETFs by 5-year annualized return.”</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">2. Explicit Constraints</h3>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>“Provide a table with columns: Ticker, P/E, Dividend Yield, Expense Ratio.”</li>
+            <li>“Summarize in no more than three bullet points.”</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">3. Prompt Chaining</h3>
+          <ol class="list-decimal list-inside text-sm space-y-1">
+            <li>“Analyze the revenue growth of AAPL over 5 years.”</li>
+            <li>“Evaluate its debt-to-equity trend.”</li>
+            <li>“Based on these, suggest potential risks.”</li>
+          </ol>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">4. Domain-Specific Adaptations</h3>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>“Using this CSV of 10-year treasury yields, show yield curve changes.”</li>
+            <li>“Compare valuations using DCF assumptions.”</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">5. Template &amp; Pattern Usage</h3>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li><strong>Persona Pattern:</strong> “You are a risk manager; identify top portfolio risks.”</li>
+            <li><strong>Template Pattern:</strong> “Report format: • Summary • Metrics • Recommendation.”</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Good Prompt Examples</h3>
+          <ul class="list-disc list-inside text-sm space-y-2">
+            <li>“Act as a veteran equity analyst and summarize the financial health of TSLA for the past 3 years, focusing on liquidity and profitability ratios.”</li>
+            <li>“Provide a side-by-side comparison table of VOO vs. IVV including expense ratios, average annual returns, and top 3 sector exposures.”</li>
+            <li>“Simulate a risk report: If interest rates rise by 2%, what is the likely impact on long-duration corporate bond ETFs?”</li>
+            <li>“Draft an investment thesis outline for Bitcoin, covering macro catalysts, technical trends, and major risks, in three bullet points each.”</li>
+            <li>“Compare and contrast covered call vs. protective put strategies on AAPL stock, listing pros, cons, and breakeven points.”</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">4. Domain-Specific Adaptations</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li>“Using this CSV of 10-year treasury yields, show yield curve changes.”</li>
-        <li>“Compare valuations using DCF assumptions.”</li>
-      </ul>
-    </section>
-
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">5. Template &amp; Pattern Usage</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li><strong>Persona Pattern:</strong> “You are a risk manager; identify top portfolio risks.”</li>
-        <li><strong>Template Pattern:</strong> “Report format: • Summary • Metrics • Recommendation.”</li>
-      </ul>
-    </section>
-
-    <!-- Examples -->
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">Good Prompt Examples</h2>
-      <ul class="list-disc list-inside text-sm space-y-2">
-        <li>“Act as a veteran equity analyst and summarize the financial health of TSLA for the past 3 years, focusing on liquidity and profitability ratios.”</li>
-        <li>“Provide a side-by-side comparison table of VOO vs. IVV including expense ratios, average annual returns, and top 3 sector exposures.”</li>
-        <li>“Simulate a risk report: If interest rates rise by 2%, what is the likely impact on long-duration corporate bond ETFs?”</li>
-        <li>“Draft an investment thesis outline for Bitcoin, covering macro catalysts, technical trends, and major risks, in three bullet points each.”</li>
-        <li>“Compare and contrast covered call vs. protective put strategies on AAPL stock, listing pros, cons, and breakeven points.”</li>
-      </ul>
-    </section>
-
-    <!-- Sources & Affiliate + Disclaimer -->
+    <!-- Footer -->
     <footer class="bg-white p-4 rounded-lg shadow-inner text-sm text-gray-600">
       <p class="font-semibold">Sources:</p>
       <ul class="list-inside list-disc ml-4 mb-4">
-        <li><a href="https://medium.com/prompt-engine/how-i-use-chatgpt-for-investing-8010dab737fa" target="_blank" class="text-blue-600 hover:underline">“How I Use ChatGPT for Investing”</a></li>
-        <li><a href="http://arxiv.org/abs/2302.11382v1" target="_blank" class="text-blue-600 hover:underline">“A Prompt Pattern Catalog” (arXiv 2302.11382v1)</a></li>
+        <li><a href="https://medium.com/prompt-engine/how-i-use-chatgpt-for-investing-8010dab737fa" target="_blank" class="text-blue-600 hover:underline">How I Use ChatGPT for Investing</a></li>
+        <li><a href="http://arxiv.org/abs/2302.11382v1" target="_blank" class="text-blue-600 hover:underline">A Prompt Pattern Catalog (arXiv)</a></li>
       </ul>
       <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
       <p class="mt-2 font-semibold">Disclosure:</p>
@@ -92,3 +176,4 @@
   </main>
 </body>
 </html>
+
