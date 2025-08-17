@@ -438,14 +438,28 @@ def main() -> None:
                 weights_shape = ("unknown",)
             st.write(f"Weights array shape: {weights_shape}")
 
-            # 4. Plot composition of train and test portfolios
-            st.subheader("Portfolio Composition")
+            st.subheader("Cumulative Returns")
             col1, col2 = st.columns(2)
             with col1:
+                st.write("Train cumulative returns")
+                fig_train = population_train.plot_cumulative_returns()
+                st.pyplot(fig_train, use_container_width=True)
+                plt.close(fig_train)  # avoid extra renders
+                
+            with col2:
+               st.write("Test cumulative returns")
+               fig_test = population_test.plot_cumulative_returns()
+               st.pyplot(fig_test, use_container_width=True)
+               plt.close(fig_test)
+
+            # 4. Plot composition of train and test portfolios
+            st.subheader("Portfolio Composition")
+            col3, col4 = st.columns(2)
+            with col3:
                 st.write("Train portfolios composition")
                 fig_train = population_train.plot_composition()
                 st.plotly_chart(fig_train, use_container_width=True, key="train_composition")
-            with col2:
+            with col4:
                 st.write("Test portfolios composition")
                 fig_test = population_test.plot_composition()
                 st.plotly_chart(fig_test, use_container_width=True, key="test_composition")
