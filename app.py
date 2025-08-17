@@ -52,45 +52,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
-# Brand tokens (match investgptai.io)
-COLOR_PRIMARY = "#3B82F6"   # blue
-COLOR_BG      = "#F9FAFB"   # page bg
-COLOR_CARD    = "#FFFFFF"   # card bg
-COLOR_TEXT    = "#1F2937"   # dark text
 
-st.set_page_config(
-    page_title="Efficient Frontier Explorer",
-    page_icon="icon.png",   # keep your logo next to app.py
-    layout="wide"
-)
-
-# Plotly theme to match site
-pio.templates["investgptai"] = pio.templates["plotly_white"]
-pio.templates["investgptai"].layout.update(
-    paper_bgcolor=COLOR_CARD,
-    plot_bgcolor=COLOR_CARD,
-    font=dict(color=COLOR_TEXT, family="Inter, system-ui, Segoe UI, Arial, sans-serif"),
-    colorway=["#3B82F6","#0EA5E9","#10B981","#F59E0B","#EF4444","#8B5CF6","#14B8A6","#F472B6"],
-    xaxis=dict(gridcolor="#E5E7EB"),
-    yaxis=dict(gridcolor="#E5E7EB")
-)
-pio.templates.default = "investgptai"
-
-# Light CSS polish
-st.markdown(f"""
-<style>
-  .stApp {{ background:{COLOR_BG}; }}
-  .block-container {{ padding-top:1.5rem; padding-bottom:3rem; }}
-  h1,h2,h3,h4,h5,h6 {{ color:{COLOR_TEXT}; letter-spacing:.1px; }}
-  .stButton > button {{
-    background:{COLOR_PRIMARY}; color:#fff; border:0; border-radius:12px;
-    padding:.6rem 1rem; box-shadow:0 4px 12px rgba(59,130,246,.15);
-  }}
-  .stButton > button:hover {{ filter:brightness(1.04); }}
-  a, a:visited {{ color:{COLOR_PRIMARY}; }}
-</style>
-""", unsafe_allow_html=True)
-# --- /Theme -------------------------------------------------------------------
 try:
     # Import optional dependencies when available.  These are only
     # required for the optimization and plotting functions provided by
