@@ -438,36 +438,6 @@ def main() -> None:
                 weights_shape = ("unknown",)
             st.write(f"Weights array shape: {weights_shape}")
 
-            st.subheader("Cumulative Returns")
-            st.subheader("Cumulative Returns")
-            col1, col2 = st.columns(2)
-
-            # Generate figures
-            fig_cum_train = population_train.plot_cumulative_returns()
-            fig_cum_test = population_test.plot_cumulative_returns()
-        
-        # Make y-axis consistent across both plots
-            ymins, ymaxs = [], []
-            for f in (fig_cum_train, fig_cum_test):
-                ax = f.axes[0]
-                ymin, ymax = ax.get_ylim()
-                ymins.append(ymin)
-                ymaxs.append(ymax)
-            shared_ylim = (min(ymins), max(ymaxs))
-            for f in (fig_cum_train, fig_cum_test):
-                f.axes[0].set_ylim(shared_ylim)
-        
-        # Render side by side
-            with col1:
-                st.write("Train cumulative returns")
-                st.pyplot(fig_cum_train, use_container_width=True)
-                plt.close(fig_cum_train)
-        
-            with col2:
-                st.write("Test cumulative returns")
-                st.pyplot(fig_cum_test, use_container_width=True)
-                plt.close(fig_cum_test)
-
             # 4. Plot composition of train and test portfolios
             st.subheader("Portfolio Composition")
             col3, col4 = st.columns(2)
