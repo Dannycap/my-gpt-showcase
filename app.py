@@ -1,13 +1,14 @@
 """
 Interactive Efficient Frontier Web App
-====================================
+=====================================
 
 This Streamlit application recreates the functionality of your
 `plot_3_efficient_frontier` notebook without exposing the code cells to
-visitors.  Users can adjust model parameters, run the efficient
-frontier optimization, visualize the results and optionally get a
-natural‑language summary powered by OpenAI.  To run the app locally
-you'll need to install a few dependencies (see instructions below).
+visitors. Users can adjust model parameters, run the efficient frontier
+optimization, visualize the results, and use a *chat-style* interface to
+request different kinds of explanations (e.g., "focus on drawdowns",
+"explain like I'm new to portfolio theory") powered by OpenAI.
+No personalized financial advice is provided.
 
 Dependencies
 ------------
@@ -23,18 +24,14 @@ The app relies on the following Python packages:
 
 Install them with pip:
 
-```bash
-pip install streamlit pandas numpy skfolio plotly openai
-```
+    pip install streamlit pandas numpy skfolio plotly openai
 
 Running the App
 ---------------
 
 Once dependencies are installed, run the app from a terminal with:
 
-```bash
-streamlit run app.py
-```
+    streamlit run app.py
 
 Streamlit will start a local development server and open the app in
 your default browser.
@@ -42,21 +39,22 @@ your default browser.
 Note on OpenAI API Keys
 -----------------------
 
-If you would like the application to generate a natural‑language summary
-of your results, enter a valid OpenAI API key in the text field.  If
-left blank, the summary step will be skipped.
+If you would like the application to generate chat-based explanations,
+enter a valid OpenAI API key in the sidebar. If left blank, the chat
+feature will show an informative message instead of calling the API.
 """
 
 import os
 import numpy as np
 import pandas as pd
 import streamlit as st
-import plotly.graph_objects as go
+import plotly.graph_objects as go  # noqa: F401 (kept for compatibility)
+from typing import Tuple, Optional
 
+# ----------------------------------------------------------------------
+# Optional dependencies (skfolio)
+# ----------------------------------------------------------------------
 try:
-    # Import optional dependencies when available.  These are only
-    # required for the optimization and plotting functions provided by
-    # skfolio.
     from skfolio.datasets import load_sp500_dataset
     from skfolio.optimization import MeanRisk
     from skfolio import PerfMeasure, RatioMeasure, RiskMeasure
@@ -67,28 +65,22 @@ except ImportError:
     RatioMeasure = None
     RiskMeasure = None
 
+# ----------------------------------------------------------------------
+# Optional dependency (openai) - support v1.x client and v0.x fallback
+# ----------------------------------------------------------------------
 try:
-    # Import the openai package.  Different versions expose different APIs.
     import openai  # type: ignore
-    # The modern v1.x library exposes an `OpenAI` class for client
-    # instantiation; older versions (<1.0) do not.  We'll detect and
-    # accommodate both.
     OpenAIClient = getattr(openai, "OpenAI", None)
 except ImportError:
     openai = None  # type: ignore
     OpenAIClient = None
 
 
+# =============================================================================
+# Data / Modeling helpers
+# =============================================================================
 def load_data() -> pd.DataFrame:
-    """Load and return the S&P 500 price dataset.
-
-    Returns
-    -------
-    pd.DataFrame
-        A pandas DataFrame of daily price data for a collection of
-        S&P 500 constituents.  Raises an informative exception if
-        `skfolio` is not installed.
-    """
+    """Load and return the S&P 500 sample price dataset via skfolio."""
     if load_sp500_dataset is None:
         raise RuntimeError(
             "skfolio is not installed. Please install skfolio to load the dataset."
@@ -100,32 +92,15 @@ def compute_efficient_frontier(
     prices: pd.DataFrame,
     test_size: float = 0.33,
     efficient_frontier_size: int = 30,
-    risk_measure: RiskMeasure = None,
-    min_return: np.ndarray | None = None,
-) -> tuple:
-    """Fit a mean‑risk model and compute the population of efficient portfolios.
-
-    Parameters
-    ----------
-    prices : pd.DataFrame
-        Price data with datetime index and asset tickers as columns.
-    test_size : float, optional
-        Fraction of the data to hold out for testing.  The first portion of
-        the dataset is used for training and the remainder for testing.
-    efficient_frontier_size : int, optional
-        Number of portfolios along the efficient frontier.
-    risk_measure : skfolio.RiskMeasure, optional
-        Choice of risk measure.  If `None`, variance is used.
-    min_return : np.ndarray or None, optional
-        Target return levels for the optimization.  Leave `None` to fit
-        without a return constraint.
+    risk_measure=None,
+    min_return: Optional[np.ndarray] = None,
+) -> Tuple[object, object, object]:
+    """
+    Fit a mean–risk model and compute train/test populations plus a combined population.
 
     Returns
     -------
-    tuple
-        (population_train, population_test, population) where each
-        population is a list of portfolios.  The combined `population` is
-        the concatenation of train and test portfolios.
+    population_train, population_test, population
     """
     from skfolio.preprocessing import prices_to_returns
     from sklearn.model_selection import train_test_split
@@ -137,9 +112,7 @@ def compute_efficient_frontier(
     returns = prices_to_returns(prices)
 
     # Train/test split without shuffling: first part for training
-    X_train, X_test = train_test_split(
-        returns, test_size=test_size, shuffle=False
-    )
+    X_train, X_test = train_test_split(returns, test_size=test_size, shuffle=False)
 
     # Configure the optimization model
     model = MeanRisk(
@@ -165,19 +138,20 @@ def compute_efficient_frontier(
 
 def plot_population(
     population,
-    x=RiskMeasure.ANNUALIZED_STANDARD_DEVIATION,
-    y=PerfMeasure.ANNUALIZED_MEAN,
-    color_scale=RatioMeasure.ANNUALIZED_SHARPE_RATIO,
+    x=None,
+    y=None,
+    color_scale=None,
     hover_measures=None,
 ):
-    """Generate a Plotly scatter chart for the population of portfolios.
-
-    This wraps the built‑in `skfolio.population.plot_measures` method so that
-    the resulting figure can be embedded into the Streamlit app.
-    """
-    if hover_measures is None:
-        hover_measures = [RiskMeasure.MAX_DRAWDOWN, RatioMeasure.ANNUALIZED_SORTINO_RATIO]
-
+    """Generate a Plotly scatter chart for the population of portfolios."""
+    # Set defaults here to avoid referencing skfolio enums at import time if missing
+    x = x or RiskMeasure.ANNUALIZED_STANDARD_DEVIATION
+    y = y or PerfMeasure.ANNUALIZED_MEAN
+    color_scale = color_scale or RatioMeasure.ANNUALIZED_SHARPE_RATIO
+    hover_measures = hover_measures or [
+        RiskMeasure.MAX_DRAWDOWN,
+        RatioMeasure.ANNUALIZED_SORTINO_RATIO,
+    ]
     fig = population.plot_measures(
         x=x,
         y=y,
@@ -192,30 +166,16 @@ def summarize_population(population) -> pd.DataFrame:
     return population.summary()
 
 
-# -----------------------------------------------------------------------------
-# Utility functions
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Utility helpers
+# =============================================================================
 def make_unique_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Ensure that a DataFrame has unique column names.
-
-    Streamlit (via PyArrow) cannot display DataFrames with duplicate column
-    names.  This function appends a suffix ("_1", "_2", ...) to any
-    duplicated columns to make them unique.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Input DataFrame that may contain duplicate column names.
-
-    Returns
-    -------
-    pd.DataFrame
-        DataFrame with unique column names.
+    Ensure that a DataFrame has unique column names for Streamlit display.
     """
     df = df.copy()
-    seen: dict[str, int] = {}
-    new_cols: list[str] = []
+    seen = {}
+    new_cols = []
     for col in df.columns:
         if col not in seen:
             seen[col] = 0
@@ -227,72 +187,51 @@ def make_unique_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def generate_chatgpt_summary(summary_stats: pd.DataFrame, api_key: str) -> str:
-    """Generate a narrative summary using OpenAI's ChatGPT.
-
-    This helper supports both the v1.x `openai.OpenAI` client class and
-    earlier versions of the library where `openai` exposes top‑level
-    `ChatCompletion` methods.
-
-    Parameters
-    ----------
-    summary_stats : pd.DataFrame
-        The summary statistics DataFrame returned by `population.summary()`.
-    api_key : str
-        A valid OpenAI API key.  If empty or invalid, an informative
-        message is returned instead of calling the API.
-
-    Returns
-    -------
-    str
-        The assistant's response or an error message.
+# =============================================================================
+# Chat helper (non-advisory, user-steerable)
+# =============================================================================
+def chat_with_model(
+    api_key: str,
+    messages: list,
+    model: str = "gpt-4o-mini",
+) -> str:
+    """
+    Send a chat turn to OpenAI using either openai v1.x client or v0.x fallback.
+    `messages` must be a list of dicts: [{"role": "...", "content": "..."}]
     """
     if not api_key:
-        return "No API key provided. Skipping ChatGPT summary."
+        return "No API key provided. Enter one in the sidebar to chat."
     if openai is None:
-        return "openai package is not installed. Please install it to use ChatGPT."
+        return "openai package is not installed. Please install it to use the chat."
 
-    prompt = (
-        "Here are summary statistics for a set of efficient frontier portfolios:\n"
-        f"{summary_stats.to_string()}\n\n"
-        "Please summarize the results for portfolios (ptf0 to ptf29), highlight any patterns or notable features, "
-        "and explain their potential implications."
-    )
     try:
-        # v1.x of openai-python: use OpenAI client class
         if OpenAIClient is not None:
             client = OpenAIClient(api_key=api_key)
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "You are a helpful financial analyst."},
-                    {"role": "user", "content": prompt},
-                ],
-                temperature=0.7,
+            resp = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=0.5,
                 max_tokens=800,
             )
-            return response.choices[0].message.content
-        # v0.x of openai-python: set API key and call ChatCompletion directly
+            return resp.choices[0].message.content
         else:
             openai.api_key = api_key  # type: ignore
-            response = openai.ChatCompletion.create(  # type: ignore
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "You are a helpful financial analyst."},
-                    {"role": "user", "content": prompt},
-                ],
-                temperature=0.7,
+            resp = openai.ChatCompletion.create(  # type: ignore
+                model=model,
+                messages=messages,
+                temperature=0.5,
                 max_tokens=800,
             )
-            return response["choices"][0]["message"]["content"]
+            return resp["choices"][0]["message"]["content"]
     except Exception as e:
         return f"Error calling OpenAI: {e}"
 
 
+# =============================================================================
+# App
+# =============================================================================
 def main() -> None:
-    """Run the Streamlit app."""
-    # Configure the page.  If an "icon.png" file is present in the current
-    # directory, use it as the page icon; otherwise fall back to default.
+    # Configure page (must be first Streamlit call)
     icon_path = "icon.png"
     if os.path.exists(icon_path):
         st.set_page_config(
@@ -305,39 +244,51 @@ def main() -> None:
         st.set_page_config(page_title="Efficient Frontier Explorer", layout="wide")
 
     st.title("Efficient Frontier Explorer")
-    st.write(
-        "Explore the efficient frontier of portfolios using your own data or sample data."
-    )
+    st.write("Explore the efficient frontier using your own data or sample data.")
 
-    # Sidebar for user inputs
+    # -----------------------
+    # Sidebar: parameters
+    # -----------------------
     st.sidebar.header("Model Parameters")
+    if MeanRisk is None or RiskMeasure is None:
+        st.sidebar.warning(
+            "skfolio is not available. Install it to enable optimization and charts."
+        )
+
     test_size = st.sidebar.slider(
         "Test set size", min_value=0.1, max_value=0.9, value=0.33, step=0.05
     )
     frontier_size = st.sidebar.slider(
         "Number of portfolios", min_value=5, max_value=100, value=30, step=5
     )
-    risk_measure_option = st.sidebar.selectbox(
-        "Risk measure",
-        options=[
-            (RiskMeasure.VARIANCE, "Variance"),
-            (RiskMeasure.SEMI_VARIANCE, "Semi‑Variance"),
-            (RiskMeasure.CVAR, "Conditional Value at Risk"),
-        ],
-        format_func=lambda x: x[1],
-    )
-    risk_measure = risk_measure_option[0]
-    # Optional minimum return constraint
+
+    # Protect against skfolio missing
+    risk_measure = None
+    if RiskMeasure is not None:
+        risk_measure_option = st.sidebar.selectbox(
+            "Risk measure",
+            options=[
+                (RiskMeasure.VARIANCE, "Variance"),
+                (RiskMeasure.SEMI_VARIANCE, "Semi-Variance"),
+                (RiskMeasure.CVAR, "Conditional Value at Risk"),
+            ],
+            format_func=lambda x: x[1],
+        )
+        risk_measure = risk_measure_option[0]
+
     min_return_enabled = st.sidebar.checkbox(
         "Specify minimum annualized return?", value=False
     )
     if min_return_enabled:
         min_ret_input = st.sidebar.text_input(
-            "Minimum annualized returns (comma‑separated, e.g. 0.05,0.10)",
+            "Minimum annualized returns (comma-separated, e.g. 0.05,0.10)",
             "0.05,0.10,0.15",
         )
         try:
-            min_return_values = [float(x.strip()) / 252 for x in min_ret_input.split(",") if x.strip()]
+            # Convert annualized levels to daily (approx 252 trading days)
+            min_return_values = [
+                float(x.strip()) / 252 for x in min_ret_input.split(",") if x.strip()
+            ]
             min_return = np.array(min_return_values)
         except ValueError:
             st.sidebar.error("Could not parse minimum return values.")
@@ -346,47 +297,43 @@ def main() -> None:
         min_return = None
 
     api_key = st.sidebar.text_input(
-        "OpenAI API key (optional)",
-        type="password",
-        placeholder="sk-..."
+        "OpenAI API key (optional)", type="password", placeholder="sk-..."
     )
-
     run_button = st.sidebar.button("Run optimization")
 
-    # Allow the user to upload their own CSV of price data.  The CSV should
-    # contain a date column (either unnamed index or named "Date") and
-    # columns for each asset's prices.  Dates will be parsed automatically.
     uploaded_file = st.sidebar.file_uploader(
         "Upload your own price CSV (optional)",
         type=["csv"],
-        help="CSV with a date column and columns per asset; if provided, it will replace the default SP500 dataset.",
+        help="CSV with a date column and columns per asset; if provided, it replaces the default S&P 500 sample dataset.",
     )
 
-    # Placeholder containers for results
+    # Placeholders
     plot_placeholder = st.empty()
     summary_placeholder = st.empty()
     chat_placeholder = st.empty()
 
+    # -----------------------
+    # Run
+    # -----------------------
     if run_button:
-        # Load data: either the user's uploaded CSV or the built‑in S&P 500 dataset.
+        # Load data (uploaded or sample)
         try:
             if uploaded_file is not None:
-                # Read the uploaded CSV.  Use the first column or a "Date" column as the index.
                 df = pd.read_csv(uploaded_file)
-                # Determine date column
+                # Infer date column
                 date_col = None
-                # If first column looks like a date or is named "Date", use it
                 if "Date" in df.columns:
                     date_col = "Date"
                 elif df.columns[0].lower().startswith("date"):
                     date_col = df.columns[0]
+
                 if date_col is not None:
                     df[date_col] = pd.to_datetime(df[date_col])
                     df = df.set_index(date_col)
                 else:
-                    # Try converting the index from the unnamed first column
                     df.index = pd.to_datetime(df.iloc[:, 0])
                     df = df.drop(df.columns[0], axis=1)
+
                 prices = df.sort_index()
             else:
                 prices = load_data()
@@ -394,10 +341,14 @@ def main() -> None:
             st.error(f"Error loading data: {e}")
             return
 
+        if MeanRisk is None or RiskMeasure is None:
+            st.error("Optimization unavailable because skfolio is not installed.")
+            return
+
         with st.spinner("Computing efficient frontier..."):
             try:
                 population_train, population_test, population = compute_efficient_frontier(
-                    prices,
+                    prices=prices,
                     test_size=test_size,
                     efficient_frontier_size=frontier_size,
                     risk_measure=risk_measure,
@@ -408,29 +359,35 @@ def main() -> None:
                 return
 
             # -----------------------------------------------------------------
-            # Compute and display additional notebook charts and information
+            # Additional charts/info
             # -----------------------------------------------------------------
-            # 1. Compute daily returns and display line chart
-            returns = prices.pct_change().dropna()
+            # 1) Daily returns line chart
             st.subheader("Daily Returns for Each Asset")
-            # Use Plotly for an interactive multi‑line chart
-            import plotly.express as px
-            fig_returns = px.line(
-                returns,
-                x=returns.index,
-                y=returns.columns,
-                labels={"value": "Daily Return", "variable": "Ticker", "x": "Date"},
-            )
-            plot_placeholder.plotly_chart(fig_returns, use_container_width=True, key="returns_chart")
+            try:
+                import plotly.express as px
 
-            # 2. Plot efficient frontier scatter for train+test
+                returns = prices.pct_change().dropna()
+                fig_returns = px.line(
+                    returns,
+                    x=returns.index,
+                    y=returns.columns,
+                    labels={"value": "Daily Return", "variable": "Ticker", "x": "Date"},
+                )
+                plot_placeholder.plotly_chart(
+                    fig_returns, use_container_width=True, key="returns_chart"
+                )
+            except Exception as e:
+                st.write(f"Could not plot daily returns: {e}")
+
+            # 2) Efficient frontier scatter (train + test)
             st.subheader("Efficient Frontier (Train + Test)")
-            fig = plot_population(population)
-            st.plotly_chart(fig, use_container_width=True, key="frontier_chart")
+            try:
+                fig_frontier = plot_population(population)
+                st.plotly_chart(fig_frontier, use_container_width=True, key="frontier_chart")
+            except Exception as e:
+                st.write(f"Could not plot efficient frontier: {e}")
 
-            # 3. Show shape of weights array (number of portfolios x number of assets)
-            # Use the fitted model from the training set to get weights_.  All
-            # portfolios in population share the same weight dimension.
+            # 3) Weights shape
             try:
                 sample_portfolio = population_train[0]
                 weights_shape = sample_portfolio.weights.shape
@@ -438,47 +395,57 @@ def main() -> None:
                 weights_shape = ("unknown",)
             st.write(f"Weights array shape: {weights_shape}")
 
-            # 4. Plot composition of train and test portfolios
+            # 4) Portfolio composition
             st.subheader("Portfolio Composition")
             col3, col4 = st.columns(2)
             with col3:
                 st.write("Train portfolios composition")
-                fig_train = population_train.plot_composition()
-                st.plotly_chart(fig_train, use_container_width=True, key="train_composition")
+                try:
+                    fig_train = population_train.plot_composition()
+                    st.plotly_chart(fig_train, use_container_width=True, key="train_composition")
+                except Exception as e:
+                    st.write(f"Could not plot train composition: {e}")
             with col4:
                 st.write("Test portfolios composition")
-                fig_test = population_test.plot_composition()
-                st.plotly_chart(fig_test, use_container_width=True, key="test_composition")
+                try:
+                    fig_test = population_test.plot_composition()
+                    st.plotly_chart(fig_test, use_container_width=True, key="test_composition")
+                except Exception as e:
+                    st.write(f"Could not plot test composition: {e}")
 
-            # 5. Show performance measures of the test portfolios (e.g., Sharpe ratio)
+            # 5) Measures (e.g., Sharpe)
             try:
                 measures_df = population_test.measures(
                     measure=RatioMeasure.ANNUALIZED_SHARPE_RATIO
                 )
-                # Ensure unique column names for display
                 measures_df_unique = make_unique_columns(measures_df)
                 st.subheader("Test Portfolio Measures (Annualized Sharpe Ratio)")
                 st.dataframe(measures_df_unique)
             except Exception as e:
                 st.write(f"Could not compute portfolio measures: {e}")
 
-            # 6. Show summary statistics
+            # 6) Summary statistics
             summary_stats = summarize_population(population)
             summary_stats_unique = make_unique_columns(summary_stats)
             st.subheader("Summary Statistics")
             st.dataframe(summary_stats_unique)
 
-            # 7. If a minimum return array is provided, run a second optimization on the
-            #    training set only and display its efficient frontier
+            # 7) Optional: constrained frontier (train only)
             if min_return is not None and len(min_return) > 0:
                 try:
                     from skfolio.optimization import MeanRisk as MR
+
                     model2 = MR(
                         risk_measure=risk_measure,
                         min_return=min_return,
                         portfolio_params=dict(name=risk_measure.name.capitalize()),
                     )
-                    population_min = model2.fit_predict(returns.iloc[: int(len(returns) * (1 - test_size))])
+                    # Train slice only
+                    n_train = int(len(prices.pct_change().dropna()) * (1 - test_size))
+                    population_min = model2.fit_predict(
+                        prices.pct_change().dropna().iloc[:n_train]
+                    )
+
                     st.subheader("Efficient Frontier with Minimum Return Constraint (Train)")
                     fig_min = population_min.plot_measures(
                         x=RiskMeasure.ANNUALIZED_STANDARD_DEVIATION,
@@ -493,10 +460,100 @@ def main() -> None:
                 except Exception as e:
                     st.write(f"Could not compute constrained efficient frontier: {e}")
 
-            # 8. ChatGPT summary
-            st.subheader("ChatGPT Summary")
-            chat_result = generate_chatgpt_summary(summary_stats_unique, api_key)
-            st.write(chat_result)
+            # 8) Interactive, non-advisory analysis chat
+            st.subheader("Interactive Analysis Chat")
+
+            with st.expander("Chat settings", expanded=True):
+                preset = st.selectbox(
+                    "Starting instruction (choose one or write your own below)",
+                    [
+                        "Summarize key risk/return patterns and trade-offs. Avoid giving advice.",
+                        "Explain how to read the efficient frontier for a beginner. No recommendations.",
+                        "Compare train vs test portfolios and highlight robustness concerns.",
+                        "Identify outliers in Sharpe/Sortino and discuss plausible reasons (data-driven only).",
+                        "Translate the stats into plain English for a non-technical audience.",
+                    ],
+                    index=0,
+                    help="This is a starting steer. You can override or add more instructions in the chat.",
+                )
+                custom_instruction = st.text_area(
+                    "Optional: add your own instruction",
+                    placeholder="e.g., Focus on downside risk and maximum drawdown. Avoid prescriptive portfolio advice.",
+                )
+                include_tables = st.checkbox(
+                    "Attach summary table context to each message",
+                    value=True,
+                    help="Includes a compact copy of the current summary stats so the model can reference them.",
+                )
+
+            # Initialize chat state
+            if "chat_messages" not in st.session_state:
+                st.session_state.chat_messages = []
+
+            system_preamble = (
+                "You are an analytical assistant. You explain observations from provided data "
+                "in a neutral, informational way. Do NOT give personalized financial advice, "
+                'allocations, or recommendations. Avoid prescriptive language like "you should". '
+                "Be clear and concise."
+            )
+
+            base_messages = [{"role": "system", "content": system_preamble}]
+
+            # Optional: provide compact table context
+            if include_tables:
+                compact_table = summary_stats_unique.to_csv(index=True)
+                # Keep under a cap to avoid token bloat
+                if len(compact_table) > 15000:
+                    compact_table = compact_table[:15000]
+                base_messages.append(
+                    {
+                        "role": "user",
+                        "content": (
+                            "Context: CSV of summary statistics for efficient-frontier portfolios.\n"
+                            "Use this only as reference.\n\n" + compact_table
+                        ),
+                    }
+                )
+
+            # Show chat history
+            for m in st.session_state.chat_messages:
+                with st.chat_message(m["role"]):
+                    st.markdown(m["content"])
+
+            # Starter suggestion
+            starter = custom_instruction.strip() if custom_instruction.strip() else preset
+
+            if len(st.session_state.chat_messages) == 0:
+                with st.chat_message("assistant"):
+                    st.markdown(
+                        "Tell me **how** you'd like these results interpreted (e.g., "
+                        "_‘focus on downside risk and avoid advice’_, _‘explain like I’m new to portfolio theory’_, "
+                        "_‘compare train vs test robustness’_)."
+                    )
+                    if starter:
+                        st.caption(f"Suggested start: _{starter}_")
+
+            # Chat input
+            user_turn = st.chat_input("Type your instruction or question about the results…")
+            if user_turn:
+                st.session_state.chat_messages.append({"role": "user", "content": user_turn})
+                with st.chat_message("user"):
+                    st.markdown(user_turn)
+
+                composed = base_messages + [
+                    {"role": "user", "content": f"Interpretation steer: {starter}"},
+                ] + st.session_state.chat_messages
+
+                with st.chat_message("assistant"):
+                    with st.spinner("Thinking…"):
+                        reply = chat_with_model(api_key=api_key, messages=composed)
+                        st.markdown(reply)
+                st.session_state.chat_messages.append({"role": "assistant", "content": reply})
+
+            st.caption(
+                "Note: This chat explains patterns in the uploaded/sample data. "
+                "It avoids prescriptive or personalized financial advice."
+            )
 
 
 if __name__ == "__main__":
