@@ -7,22 +7,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI-Powered Investment Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>tailwind.config = { darkMode: 'class' }</script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>body{font-family:'Inter',sans-serif}</style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col items-center">
 
   <!-- Header -->
-  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
+  <header class="fixed top-0 w-full bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-gray-800 dark:to-gray-900 text-white shadow-md z-10">
     <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
       <div class="text-xl font-semibold">AI-Invest</div>
-      <nav class="space-x-4">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
-        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
-        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
-        <a href="dcf.html" class="text-blue-600 font-medium">DCF</a>
-        <a href="about.html" class="text-blue-600 font-medium">About</a>
-        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
+      <nav class="flex items-center space-x-4">
+        <a href="index.html" class="text-white/80 hover:text-white">Home</a>
+        <a href="features.html" class="text-white/80 hover:text-white">Features</a>
+        <a href="prompt.html" class="text-white/80 hover:text-white">How-To</a>
+        <a href="efficient-frontier.html" class="text-white/80 hover:text-white">Efficient Frontier</a>
+        <a href="dcf.html" class="text-white/80 hover:text-white">DCF</a>
+        <a href="about.html" class="text-white/80 hover:text-white">About</a>
+        <a href="faq.html" class="text-white/80 hover:text-white">FAQ</a>
+        <button id="theme-toggle" class="ml-4 p-2 rounded bg-white/10 hover:bg-white/20 transition-colors"><span id="theme-icon">🌙</span></button>
       </nav>
     </div>
   </header>
@@ -36,23 +40,23 @@
 
     <!-- GPT Cards -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-      <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+      <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition transform hover:-translate-y-1 hover:shadow-lg">
         <img src="icon.png" alt="ETF Comparator" class="w-12 h-12 mb-2"/>
         <span class="text-sm font-medium">ETF Comparator</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+      <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition transform hover:-translate-y-1 hover:shadow-lg">
         <img src="icon.png" alt="Financial Sentiment Analyst" class="w-12 h-12 mb-2"/>
         <span class="text-sm font-medium">Financial Sentiment Analyst</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+      <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition transform hover:-translate-y-1 hover:shadow-lg">
         <img src="icon.png" alt="Investment SWOT Strategist" class="w-12 h-12 mb-2"/>
         <span class="text-sm font-medium">Investment SWOT Strategist</span>
       </a>
-      <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+      <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition transform hover:-translate-y-1 hover:shadow-lg">
         <img src="icon.png" alt="Portfolio Optimizer Pro" class="w-12 h-12 mb-2"/>
         <span class="text-sm font-medium">Portfolio Optimizer Pro</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
+      <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" class="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition transform hover:-translate-y-1 hover:shadow-lg">
         <img src="icon.png" alt="Portfolio Analysis Assistant" class="w-12 h-12 mb-2"/>
         <span class="text-sm font-medium">Portfolio Analysis Assistant</span>
       </a>
@@ -61,11 +65,13 @@
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
+  <footer class="mt-auto w-full bg-white dark:bg-gray-800 p-4 text-center text-sm text-gray-600 dark:text-gray-400">
     <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
     <p class="mt-2 font-semibold">Disclosure:</p>
     <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
   </footer>
+
+  <script src="theme.js"></script>
 
 </body>
 </html>
