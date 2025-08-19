@@ -2,47 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAQ - AI-Powered Investment Tools</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQ - AI-Invest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">AI-Invest</a>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="features.html" class="nav-link">Tools</a>
-        <a href="prompt.html" class="nav-link">How-To</a>
-        <a href="efficient-frontier.html" class="nav-link">Efficient Frontier</a>
-        <a href="dcf.html" class="nav-link">DCF</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="faq.html" class="nav-link active">FAQ</a>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
+    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-semibold">AI-Invest</div>
+      <nav class="space-x-4">
+         <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
+        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
+        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
+        <a href="about.html" class="text-blue-600 font-medium">About</a>
+        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1>Frequently Asked Questions</h1>
-    <h2>Is this investment advice?</h2>
-    <p class="mb-2">No. All tools are for educational purposes only and should not be considered financial advice.</p>
-    <h2>Do I need an API key?</h2>
-    <p class="mb-2">Some Streamlit tools optionally use the OpenAI API for chat explanations. If you omit the key, the tool still runs but without AI commentary.</p>
+  <main class="pt-24 w-full max-w-4xl p-4 space-y-8">
+    <h1 class="text-2xl font-bold text-center">Frequently Asked Questions</h1>
+
+    <!-- General Section -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">General</h2>
+      <ul class="list-disc list-inside text-sm space-y-2">
+        <li><strong>What is AI-Invest?</strong> An educational platform that leverages GPT for financial analysis, modeling, and insights.</li>
+        <li><strong>Is this financial advice?</strong> No. The site provides educational tools only. Always consult a licensed financial advisor.</li>
+        <li><strong>Where does the data come from?</strong> Historical market data and user-provided inputs. Some tools use affiliate sources like Stock Analysis Pro.</li>
+      </ul>
+    </section>
+
+    <!-- Tool Usage Section -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Using the Tools</h2>
+      <ul class="list-disc list-inside text-sm space-y-2">
+        <li><strong>Do I need to install anything?</strong> No. Everything works in-browser using GPT APIs.</li>
+        <li><strong>Can I upload my portfolio?</strong> Yes. Some tools allow CSV uploads to simulate, analyze, and visualize performance.</li>
+        <li><strong>How often is data updated?</strong> Most tools rely on static historical data. No live pricing is currently supported.</li>
+      </ul>
+    </section>
+
+    <!-- Hallucinations Section -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-4">What if GPT gives wrong or hallucinated answers?</h2>
+      <p class="text-sm mb-4">GPT models may occasionally generate false or inaccurate information. Below is one real example of a hallucinated answer from an AI session, shown using two screenshots for context:</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <img src="image1.jpeg" alt="Hallucinated GPT Response 1" class="rounded border" />
+          <p class="text-xs mt-2 italic">This hallucination incorrectly described a company’s financial ratio that doesn’t exist.</p>
+        </div>
+        <div>
+          <img src="image0.jpeg" alt="Hallucinated GPT Response 2" class="rounded border" />
+          <p class="text-xs mt-2 italic">This response created a made-up news event that never occurred.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Privacy & Security</h2>
+      <ul class="list-disc list-inside text-sm space-y-2">
+        <li><strong>Do you store my data?</strong> No personal data is stored. Uploaded files are processed temporarily and discarded.</li>
+        <li><strong>Is my data shared?</strong> No. Your portfolio and inputs are private and not shared with any third party.</li>
+      </ul>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <nav class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="features.html">Tools</a>
-        <a href="about.html">About</a>
-        <a href="mailto:info@example.com">Contact</a>
-      </nav>
-      <p class="tagline">Empowering investors with AI-driven tools.</p>
-    </div>
+  <!-- Footer -->
+  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
+    <p class="font-semibold">Disclosure:</p>
+    <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
   </footer>
+
 </body>
 </html>
