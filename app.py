@@ -48,8 +48,6 @@ import os
 import numpy as np
 import pandas as pd
 import streamlit as st
-from pathlib import Path
-st.markdown(Path("css/streamlit_brand.css").read_text(), unsafe_allow_html=True)
 import plotly.graph_objects as go  # noqa: F401 (kept for compatibility)
 from typing import Tuple, Optional
 

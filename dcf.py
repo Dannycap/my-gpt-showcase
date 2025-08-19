@@ -1,6 +1,4 @@
 import streamlit as st
-from pathlib import Path
-st.markdown(Path("css/streamlit_brand.css").read_text(), unsafe_allow_html=True)
 import pandas as pd
 import numpy as np
 import requests

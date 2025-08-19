@@ -4,88 +4,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Features - AI-Powered Investment Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<header class="nav">
-  <div class="nav-inner">
-    <div class="brand"><div class="logo"></div> AI-Invest</div>
-    <nav class="links">
-      <a href="/index.html">Home</a>
-      <div class="menu">
-        <a href="/tools/index.html">Tools</a>
-        <div class="menu-panel">
-          <a href="/tools/efficient-frontier.html">Efficient Frontier</a>
-          <a href="/tools/dcf.html">DCF Valuation</a>
-        </div>
-      </div>
-      <div class="menu">
-        <a href="/gpts/index.html">Custom GPTs</a>
-        <div class="menu-panel">
-          <a href="/gpts/etf-comparator.html">ETF Comparator GPT</a>
-          <a href="/gpts/sentiment-analyst.html">Sentiment Analyst GPT</a>
-          <a href="/gpts/investment-swot.html">Investment SWOT GPT</a>
-        </div>
-      </div>
-      <a href="/prompt.html">How-To</a>
-      <a href="/about.html">About</a>
-    </nav>
-  </div>
-</header>
-<main>
-  <section class="section">
-    <h1>Tool Details &amp; Capabilities</h1>
-  </section>
-  <section class="section">
-    <h2>ETF Comparator</h2>
-    <p>Compare ETFs side by side on performance, sector exposure, fees, and risk metrics.</p>
-    <ul>
-      <li><strong>Capabilities:</strong> Historical returns chart, fee comparison, sector breakdown.</li>
-      <li><strong>Limitations:</strong> Static snapshot data, no real-time updates.</li>
-    </ul>
-    <p><a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" target="_blank" class="btn btn-primary">Open ETF Comparator →</a></p>
-  </section>
-  <section class="section">
-    <h2>Financial Sentiment Analyst</h2>
-    <p>Analyze sentiment from news and social media for stocks and funds.</p>
-    <ul>
-      <li><strong>Capabilities:</strong> Sentiment scoring, trend highlights, summary bullets.</li>
-      <li><strong>Limitations:</strong> Cannot fetch live feeds, accuracy depends on input text quality.</li>
-    </ul>
-    <p><a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" target="_blank" class="btn btn-primary">Open Sentiment Analyst →</a></p>
-  </section>
-  <section class="section">
-    <h2>Investment SWOT Strategist</h2>
-    <p>Generate SWOT analyses for stocks, sectors, or portfolios.</p>
-    <ul>
-      <li><strong>Capabilities:</strong> Strengths, weaknesses, opportunities, threats mapping.</li>
-      <li><strong>Limitations:</strong> Reliant on general data; lacks proprietary insights.</li>
-    </ul>
-    <p><a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" target="_blank" class="btn btn-primary">Open SWOT Strategist →</a></p>
-  </section>
-  <section class="section">
-    <h2>Portfolio Optimizer Pro</h2>
-    <p>Optimize asset allocations using Modern Portfolio Theory and custom constraints.</p>
-    <ul>
-      <li><strong>Capabilities:</strong> Efficient frontier, Sharpe ratio maximization, risk budgeting.</li>
-      <li><strong>Limitations:</strong> Static historical data, no live rebalancing.</li>
-    </ul>
-    <p><a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" target="_blank" class="btn btn-primary">Open Portfolio Optimizer →</a></p>
-  </section>
-  <section class="section">
-    <h2>Portfolio Analysis Assistant</h2>
-    <p>Deep-dive into portfolio performance, asset allocation, and risk-return metrics.</p>
-    <ul>
-      <li><strong>Capabilities:</strong> Performance attribution, allocation charts, risk analysis.</li>
-      <li><strong>Limitations:</strong> Uses static historical data; no live market feeds.</li>
-    </ul>
-    <p><a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" target="_blank" class="btn btn-primary">Open Portfolio Analysis Assistant →</a></p>
-  </section>
-</main>
-<footer>
-  <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank">Stock Analysis Pro</a></p>
-  <p class="mt-2"><strong>Disclosure:</strong> This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
-</footer>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
+    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-semibold">AI-Invest</div>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
+        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
+        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
+        <a href="about.html" class="text-blue-600 font-medium">About</a>
+        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-20 w-full max-w-4xl space-y-8 p-4">
+    <h1 id="tool-details" class="text-2xl font-bold text-center mb-4">Tool Details &amp; Capabilities</h1>
+
+    <!-- ETF Comparator -->
+    <section id="index-etf" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">ETF Comparator</h2>
+      <p class="mb-2 text-sm">Compare ETFs side by side on performance, sector exposure, fees, and risk metrics.</p>
+      <ul class="list-disc list-inside text-sm space-y-1 mb-4">
+        <li><strong>Capabilities:</strong> Historical returns chart, fee comparison, sector breakdown.</li>
+        <li><strong>Limitations:</strong> Static snapshot data, no real-time updates.</li>
+      </ul>
+      <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" target="_blank"
+         class="text-blue-600 hover:underline text-sm">Open ETF Comparator →</a>
+    </section>
+
+    <!-- Financial Sentiment Analyst -->
+    <section id="index-sentiment" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Financial Sentiment Analyst</h2>
+      <p class="mb-2 text-sm">Analyze sentiment from news and social media for stocks and funds.</p>
+      <ul class="list-disc list-inside text-sm space-y-1 mb-4">
+        <li><strong>Capabilities:</strong> Sentiment scoring, trend highlights, summary bullets.</li>
+        <li><strong>Limitations:</strong> Cannot fetch live feeds, accuracy depends on input text quality.</li>
+      </ul>
+      <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" target="_blank"
+         class="text-blue-600 hover:underline text-sm">Open Sentiment Analyst →</a>
+    </section>
+
+    <!-- Investment SWOT Strategist -->
+    <section id="index-swot" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Investment SWOT Strategist</h2>
+      <p class="mb-2 text-sm">Generate SWOT analyses for stocks, sectors, or portfolios.</p>
+      <ul class="list-disc list-inside text-sm space-y-1 mb-4">
+        <li><strong>Capabilities:</strong> Strengths, weaknesses, opportunities, threats mapping.</li>
+        <li><strong>Limitations:</strong> Reliant on general data; lacks proprietary insights.</li>
+      </ul>
+      <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" target="_blank"
+         class="text-blue-600 hover:underline text-sm">Open SWOT Strategist →</a>
+    </section>
+
+    <!-- Portfolio Optimizer Pro -->
+    <section id="index-optimizer" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Portfolio Optimizer Pro</h2>
+      <p class="mb-2 text-sm">Optimize asset allocations using Modern Portfolio Theory and custom constraints.</p>
+      <ul class="list-disc list-inside text-sm space-y-1 mb-4">
+        <li><strong>Capabilities:</strong> Efficient frontier, Sharpe ratio maximization, risk budgeting.</li>
+        <li><strong>Limitations:</strong> Static historical data, no live rebalancing.</li>
+      </ul>
+      <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" target="_blank"
+         class="text-blue-600 hover:underline text-sm">Open Portfolio Optimizer →</a>
+    </section>
+
+    <!-- Portfolio Analysis Assistant -->
+    <section id="index-portfolio-analysis" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Portfolio Analysis Assistant</h2>
+      <p class="mb-2 text-sm">Deep-dive into portfolio performance, asset allocation, and risk-return metrics.</p>
+      <ul class="list-disc list-inside text-sm space-y-1 mb-4">
+        <li><strong>Capabilities:</strong> Performance attribution, allocation charts, risk analysis.</li>
+        <li><strong>Limitations:</strong> Uses static historical data; no live market feeds.</li>
+      </ul>
+      <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" target="_blank"
+         class="text-blue-600 hover:underline text-sm">Open Portfolio Analysis Assistant →</a>
+    </section>
+
+  </main>
+
+  <!-- Affiliate + Disclaimer -->
+  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
+    <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
+    <p class="mt-2 font-semibold">Disclosure:</p>
+    <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+  </footer>
+
 </body>
 </html>
