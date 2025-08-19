@@ -2,45 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About - AI-Powered Investment Tools</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">AI-Invest</a>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="features.html" class="nav-link">Tools</a>
-        <a href="prompt.html" class="nav-link">How-To</a>
-        <a href="efficient-frontier.html" class="nav-link">Efficient Frontier</a>
-        <a href="dcf.html" class="nav-link">DCF</a>
-        <a href="about.html" class="nav-link active">About</a>
-        <a href="faq.html" class="nav-link">FAQ</a>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
+
+  <!-- Header -->
+  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
+    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
+      <div class="text-xl font-semibold">AI-Invest</div>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
+        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
+        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
+        <a href="dcf.html" class="text-blue-600 font-medium">DCF</a>
+        <a href="about.html" class="text-blue-600 font-medium">About</a>
+        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1>About AI-Invest</h1>
-    <p class="mb-2">AI-Invest provides simple, data-driven tools that help investors explore markets with the assistance of modern AI models.</p>
-    <p class="mb-2">Our mission is to make quantitative analysis more accessible and educational. All insights are informational and never a substitute for professional advice.</p>
+  <main class="pt-20 w-full max-w-4xl space-y-6 p-4">
+    <h1 class="text-2xl font-bold text-center">About AI-Invest</h1>
+
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Mission</h2>
+      <p class="text-sm">
+        To serve as a hands-on educational resource, empowering investors of all levels to harness ChatGPT’s capabilities in their
+        research and decision-making processes. AI-Invest demonstrates how to craft precise prompts, interpret AI-driven analyses,
+        and integrate those insights seamlessly into portfolio management strategies.
+      </p>
+    </section>
+
+    <!-- Recommended Resources -->
+    <section class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="text-xl font-semibold mb-2">Recommended Resources</h2>
+      <ul class="list-disc list-inside text-sm space-y-2">
+        <li>
+          For deeper stock screening and analysis, check out 
+          <a href="https://finviz.com/?affilId=520289256" target="_blank" class="text-blue-600 hover:underline">
+            Finviz Stock Screener
+          </a>.
+        </li>
+        <li>
+          Get more comprehensive stock data with 
+          <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">
+            Stock Analysis Pro
+          </a>.
+        </li>
+      </ul>
+    </section>
+
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <nav class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="features.html">Tools</a>
-        <a href="about.html">About</a>
-        <a href="mailto:info@example.com">Contact</a>
-      </nav>
-      <p class="tagline">Empowering investors with AI-driven tools.</p>
-    </div>
+  <!-- Disclaimer Only -->
+  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
+    <p class="font-semibold">Disclosure:</p>
+    <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
   </footer>
+
 </body>
 </html>

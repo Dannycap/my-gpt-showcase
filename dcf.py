@@ -209,51 +209,20 @@ def dcf_two_stage(last_fcf: float, g_years: int, growth: float, wacc: float, ter
 # App UI (no emojis) + persistent data
 # ==============================================
 st.set_page_config(page_title="DCF", layout="wide")
-with open("styles.css") as css:
-    st.markdown(f"<style>{css.read()}</style>", unsafe_allow_html=True)
 st.title("DCF")
 st.caption("Load a stock once, then navigate between DCF, Income, Balance, and Cash Flow without re-running fetches.")
 
 with st.sidebar:
     st.header("SEC Settings")
-    ua_email = st.text_input(
-        "Your email (required by SEC)",
-        placeholder="you@example.com",
-        help="Used when requesting SEC filings",
-    )
-    ticker = st.text_input(
-        "Ticker",
-        value="AAPL",
-        help="Public company ticker symbol",
-    ).upper()
+    ua_email = st.text_input("Your email (required by SEC)", placeholder="you@example.com")
+    ticker = st.text_input("Ticker", value="AAPL").upper()
 
     st.markdown("---")
     st.header("DCF Assumptions")
-    years = st.slider("Projection years", 3, 10, 5, help="Years to project free cash flow")
-    growth = st.slider(
-        "FCF growth (Years 1..N)",
-        -0.2,
-        0.3,
-        0.08,
-        step=0.01,
-        help="Annual growth rate for projected FCF",
-    )
-    wacc = st.slider(
-        "Discount rate (WACC)",
-        0.02,
-        0.20,
-        0.10,
-        step=0.005,
-        help="Weighted average cost of capital",
-    )
-    tgr = st.slider(
-        "Terminal growth",
-        0.0,
-        0.05,
-        0.025,
-        step=0.0025,
-        help="Perpetual growth after projection period",
-    )
+    years = st.slider("Projection years", 3, 10, 5)
+    growth = st.slider("FCF growth (Years 1..N)", -0.2, 0.3, 0.08, step=0.01)
+    wacc = st.slider("Discount rate (WACC)", 0.02, 0.20, 0.10, step=0.005)
+    tgr = st.slider("Terminal growth", 0.0, 0.05, 0.025, step=0.0025)
 
     st.markdown("---")
     st.header("Balance Sheet Adjustments")
@@ -265,14 +234,7 @@ with st.sidebar:
     enable_ai = st.toggle("Enable Q&A", value=False)
     openai_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
     model = st.selectbox("Model", ["gpt-4o-mini", "gpt-4o", "gpt-4.1-mini"], index=0)
-    temperature = st.slider(
-        "Creativity (temperature)",
-        0.0,
-        1.0,
-        0.2,
-        0.05,
-        help="Higher values yield more varied answers",
-    )
+    temperature = st.slider("Creativity (temperature)", 0.0, 1.0, 0.2, 0.05)
 
     st.markdown("---")
     load = st.button("Load / Refresh data", type="primary")

@@ -243,9 +243,6 @@ def main() -> None:
     else:
         st.set_page_config(page_title="Efficient Frontier Explorer", layout="wide")
 
-    with open("styles.css") as css:
-        st.markdown(f"<style>{css.read()}</style>", unsafe_allow_html=True)
-
     st.title("Efficient Frontier Explorer")
     st.write("Explore the efficient frontier using your own data or sample data.")
 
@@ -259,20 +256,10 @@ def main() -> None:
         )
 
     test_size = st.sidebar.slider(
-        "Test set size",
-        min_value=0.1,
-        max_value=0.9,
-        value=0.33,
-        step=0.05,
-        help="Fraction of data reserved for testing",
+        "Test set size", min_value=0.1, max_value=0.9, value=0.33, step=0.05
     )
     frontier_size = st.sidebar.slider(
-        "Number of portfolios",
-        min_value=5,
-        max_value=100,
-        value=30,
-        step=5,
-        help="Points plotted on the efficient frontier",
+        "Number of portfolios", min_value=5, max_value=100, value=30, step=5
     )
 
     # Protect against skfolio missing

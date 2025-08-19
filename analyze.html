@@ -2,49 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Live Ticker Analysis</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+  <!-- Google AdSense -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7032908618576389"
+          crossorigin="anonymous"></script>
 </head>
-<body>
-  <header class="navbar">
-    <div class="container">
-      <a href="index.html" class="logo">AI-Invest</a>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="features.html" class="nav-link">Tools</a>
-        <a href="prompt.html" class="nav-link">How-To</a>
-        <a href="efficient-frontier.html" class="nav-link">Efficient Frontier</a>
-        <a href="dcf.html" class="nav-link">DCF</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="faq.html" class="nav-link">FAQ</a>
-      </nav>
-    </div>
-  </header>
+<body class="bg-gray-50 text-gray-800 flex flex-col items-center p-4">
 
-  <main class="container">
-    <h1 class="text-center">Live Ticker Analysis</h1>
-    <form id="analysis-form" class="mt-2">
-      <input id="ticker" type="text" placeholder="Enter stock ticker (e.g. AAPL)" required class="mb-2" />
-      <button type="submit" class="btn btn-primary">Analyze</button>
-    </form>
-    <div id="result" class="card mt-2"></div>
-  </main>
+  <h1 class="text-2xl font-bold mb-4">Live Ticker Analysis</h1>
 
-  <footer class="site-footer">
-    <div class="container">
-      <nav class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="features.html">Tools</a>
-        <a href="about.html">About</a>
-        <a href="mailto:info@example.com">Contact</a>
-      </nav>
-      <p class="tagline">Empowering investors with AI-driven tools.</p>
-    </div>
-  </footer>
+  <form id="analysis-form" class="flex flex-col items-center gap-2 w-full max-w-md">
+    <input
+      id="ticker"
+      type="text"
+      placeholder="Enter stock ticker (e.g. AAPL)"
+      class="w-full p-2 border rounded"
+      required
+    />
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    >Analyze</button>
+  </form>
+
+  <div id="result" class="mt-6 w-full max-w-md bg-white p-4 rounded shadow-sm whitespace-pre-wrap"></div>
 
   <script>
     const form = document.getElementById('analysis-form');
@@ -54,12 +42,24 @@
       e.preventDefault();
       const ticker = document.getElementById('ticker').value.trim().toUpperCase();
       resultDiv.textContent = 'Loading…';
+
       try {
+        // Call your Cloudflare Worker at /chat
         const response = await fetch('/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ticker })
         });
+
+        // Guard against HTML error pages
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
+          const text = await response.text();
+          console.error('Unexpected response:', text);
+          resultDiv.textContent = 'Unexpected response (see console)';
+          return;
+        }
+
         const data = await response.json();
         if (data.choices && data.choices[0].message) {
           resultDiv.textContent = data.choices[0].message.content;
@@ -73,5 +73,7 @@
       }
     });
   </script>
+
 </body>
 </html>
+
