@@ -1,75 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7032908618576389"
-     crossorigin="anonymous"></script>
-  
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI-Powered Investment Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvestGPT AI - AI-Powered Investment Tools</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
-
-  <!-- Header -->
-  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
-    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
-      <div class="text-xl font-semibold">AI-Invest</div>
-      <nav class="space-x-4">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
-        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
-        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
-        <a href="dcf.html" class="text-blue-600 font-medium">DCF</a>
-        <a href="about.html" class="text-blue-600 font-medium">About</a>
-        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
-      </nav>
+<body>
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">IG</div>
+      <span>InvestGPT&nbsp;AI</span>
     </div>
-  </header>
+    <button class="menu-btn" aria-label="Toggle menu" onclick="document.querySelector('.links').classList.toggle('open')">☰ Menu</button>
+    <nav class="links" aria-label="Primary">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="features.html">Tools</a>
+      <a href="prompt.html">Docs</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
 
-  <main class="pt-24 w-full max-w-4xl flex flex-col items-center gap-6 p-4">
+<main class="container">
+  <section class="hero" aria-labelledby="title">
+    <h1 id="title" class="title">Leveraging ChatGPT for Investment Finance</h1>
+    <p class="subtitle">Explore tools and assistants for smarter investing.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="features.html">Get Started</a>
+      <a class="btn" href="about.html">Learn More</a>
+    </div>
+  </section>
 
-    <!-- Main Headline -->
-    <h1 class="text-2xl font-bold text-center text-gray-800">
-      Leveraging ChatGPT for Investment Finance
-    </h1>
+  <section class="section">
+    <div class="grid" role="list">
+      <article class="card" role="listitem">
+        <h2>Simple, Professional Theme</h2>
+        <p>Clean spacing, readable typography, and subtle depth—without changing your content or adding new sections.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h2>Ready for Mobile</h2>
+        <p>Sticky header, touch‑friendly buttons, and a lightweight menu for small screens.</p>
+      </article>
+    </div>
+  </section>
 
-    <!-- GPT Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-      <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
-        <img src="icon.png" alt="ETF Comparator" class="w-12 h-12 mb-2"/>
-        <span class="text-sm font-medium">ETF Comparator</span>
+  <section class="section">
+    <h2 class="sr-only">InvestGPT Tools</h2>
+    <div class="grid" role="list">
+      <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" class="card tool" role="listitem">
+        <img src="icon.png" alt="ETF Comparator" />
+        <span>ETF Comparator</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
-        <img src="icon.png" alt="Financial Sentiment Analyst" class="w-12 h-12 mb-2"/>
-        <span class="text-sm font-medium">Financial Sentiment Analyst</span>
+      <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" class="card tool" role="listitem">
+        <img src="icon.png" alt="Financial Sentiment Analyst" />
+        <span>Financial Sentiment Analyst</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
-        <img src="icon.png" alt="Investment SWOT Strategist" class="w-12 h-12 mb-2"/>
-        <span class="text-sm font-medium">Investment SWOT Strategist</span>
+      <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" class="card tool" role="listitem">
+        <img src="icon.png" alt="Investment SWOT Strategist" />
+        <span>Investment SWOT Strategist</span>
       </a>
-      <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
-        <img src="icon.png" alt="Portfolio Optimizer Pro" class="w-12 h-12 mb-2"/>
-        <span class="text-sm font-medium">Portfolio Optimizer Pro</span>
+      <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" class="card tool" role="listitem">
+        <img src="icon.png" alt="Portfolio Optimizer Pro" />
+        <span>Portfolio Optimizer Pro</span>
       </a>
-      <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" class="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md">
-        <img src="icon.png" alt="Portfolio Analysis Assistant" class="w-12 h-12 mb-2"/>
-        <span class="text-sm font-medium">Portfolio Analysis Assistant</span>
+      <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" class="card tool" role="listitem">
+        <img src="icon.png" alt="Portfolio Analysis Assistant" />
+        <span>Portfolio Analysis Assistant</span>
       </a>
     </div>
+  </section>
+</main>
 
-  </main>
+<footer>
+  <div class="container foot">
+    <span>© <span id="y"></span> InvestGPT AI</span>
+    <span><a href="#">Privacy</a> · <a href="#">Terms</a></span>
+  </div>
+</footer>
 
-  <!-- Footer -->
-  <footer class="mt-auto w-full bg-white p-4 text-center text-sm text-gray-600">
-    <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
-    <p class="mt-2 font-semibold">Disclosure:</p>
-    <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
-  </footer>
-
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
