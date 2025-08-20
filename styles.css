@@ -1,30 +1,231 @@
+:root {
+  --primary: #2563eb;
+  --text: #0f172a;
+  --bg: #ffffff;
+  --muted: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Inter', sans-serif;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: #f8fafc;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 header {
-  background: linear-gradient(90deg, #1e3a8a, #2563eb) !important;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  z-index: 10;
 }
 
-header .text-xl {
-  color: #ffffff !important;
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-header nav a {
-  color: #e0e7ff !important;
-  transition: color 0.2s;
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 
-header nav a.text-blue-600 {
-  color: #ffffff !important;
-  font-weight: 600 !important;
+.brand {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+  gap: 0.5rem;
 }
 
-header nav a:hover {
-  color: #ffffff !important;
+.logo {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.links a {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.links a[aria-current="page"] {
+  color: var(--primary);
+}
+
+.menu-btn {
+  display: none;
+  background: none;
+  border: 0;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    padding: 1rem;
+    display: none;
+  }
+  .links.open {
+    display: flex;
+  }
+  .menu-btn {
+    display: block;
+  }
+}
+
+.hero {
+  position: relative;
+  padding: 6rem 0 4rem;
+  text-align: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  background-image:
+    radial-gradient(rgba(37,99,235,0.12) 1px, transparent 1.5px),
+    radial-gradient(rgba(124,58,237,0.08) 1px, transparent 1.5px);
+  background-size: 28px 28px, 48px 48px;
+  background-position: 0 0, 12px 8px;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: var(--bg);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -12px rgba(37,99,235,0.55);
+  filter: brightness(1.03);
+}
+
+.btn:not(.primary):hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.tool {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--text);
+}
+
+.tool:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tool img {
+  width: 48px;
+  height: 48px;
 }
 
 footer {
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  background: var(--bg);
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+  border-top: 1px solid #e2e8f0;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.foot a {
+  color: var(--muted);
+}
+
+:is(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 10px;
 }
