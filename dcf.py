@@ -5,14 +5,35 @@ import requests
 import io
 import zipfile
 from functools import reduce
+
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+
 st.markdown("""
 <style>
-  [data-testid="stToolbar"] { visibility: hidden !important; height: 0 !important; }
-  header, footer { visibility: hidden !important; height: 0 !important; }
+  /* Hide Streamlit top toolbar; keep page header visible */
+  [data-testid="stToolbar"] { display: none !important; }
+
+  /* Hide Streamlit footer/watermark area */
+  footer, [data-testid="stStatusWidget"] { display: none !important; height: 0 !important; }
+
+  /* Tighter vertical padding inside the page */
   .block-container { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+
+  /* Remove ALL "View fullscreen" buttons/menus (tables, charts, images, etc.) */
+  button[title="View fullscreen"],
+  button[aria-label="View fullscreen"],
+  [data-testid="StyledFullScreenButton"],
+  [data-testid="stElementToolbar"] { display: none !important; }
 </style>
+
+<!-- Enable iframe auto-resize when embedded -->
 <script src="https://cdn.jsdelivr.net/npm/iframe-resizer/js/iframeResizer.contentWindow.min.js"></script>
 """, unsafe_allow_html=True)
+
+# (Optional safety: ensure the sidebar header shows)
+with st.sidebar:
+    st.header("SEC Settings")
+
 # ==============================================
 # SEC EDGAR helpers
 # ==============================================
