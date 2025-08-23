@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Efficient Frontier - InvestGPT AI</title>
-  <meta name="description" content="Visualize portfolio optimization and the efficient frontier using this free interactive AI app." />
+  <title>Discounted Cash Flow (DCF) - InvestGPT AI</title>
+  <meta name="description" content="Run your Discounted Cash Flow analysis with the help of AI using our free DCF app." />
   <link rel="icon" href="icon.png">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
+      /* same palette / spacing as your site */
       --bg: #ffffff;
       --surface: #f6f8fb;
       --text: #0f172a;
@@ -19,7 +21,9 @@
       --border: #e5e7eb;
       --radius: 14px;
       --container: 1040px;
+      --header-h: 64px;
     }
+
     *, *::before, *::after { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; }
     body {
@@ -29,35 +33,60 @@
       line-height: 1.6;
     }
     a { color: inherit; text-decoration: none; }
+
     .container { max-width: var(--container); margin-inline: auto; padding: 20px; }
 
-    header { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    /* Header / nav matches the rest of the site */
+    header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255,255,255,.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
     .nav { display:flex; align-items:center; justify-content:space-between; gap: 12px; }
     .brand { display:flex; align-items:center; gap: 10px; font-weight: 700; }
-    .logo { width: 34px; height: 34px; border-radius: 10px; background: var(--primary-weak); display:grid; place-items:center; color: var(--primary); font-weight: 700; }
-    .nav a { padding: 8px 10px; color: var(--muted); border-radius: 10px; border: 1px solid transparent; }
-    .nav a:hover, .nav a:focus-visible { color: var(--text); border-color: var(--border); }
-
-    .menu-btn { display:none; border:1px solid var(--border); background:#fff; padding:8px 10px; border-radius:10px; }
+    .logo { width: 34px; height: 34px; border-radius: 10px; background: var(--primary-weak);
+            display:grid; place-items:center; color: var(--primary); font-weight: 700; }
     .links { display:flex; gap: 8px; align-items:center; }
+    .links a {
+      padding: 8px 10px; color: var(--muted);
+      border-radius: 10px; border: 1px solid transparent;
+    }
+    .links a:hover, .links a:focus-visible { color: var(--text); border-color: var(--border); }
+    .links a[aria-current="page"] {
+      color: var(--text); background: #fff; border-color: var(--border);
+    }
+    .menu-btn { display:none; border:1px solid var(--border); background:#fff; padding:8px 10px; border-radius:10px; }
     @media (max-width: 760px) {
       .menu-btn { display:inline-flex; }
-      .links { display:none; position:absolute; inset:64px 16px auto 16px; flex-direction:column; background:#fff; border:1px solid var(--border); border-radius:14px; padding:10px; }
+      .links { display:none; position:absolute; inset:64px 16px auto 16px;
+               flex-direction:column; background:#fff; border:1px solid var(--border);
+               border-radius:14px; padding:10px; }
       .links.open { display:flex; }
     }
 
+    /* Page */
     .section { padding: 48px 0; }
-    iframe {
-      width: 100%;
-      height: 80vh;
-      border: none;
-      border-radius: var(--radius);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    .title { font-size: 32px; font-weight: 700; margin-bottom: 20px; }
+    .lead  { max-width: 640px; color: var(--muted); font-size: 15px; }
+
+    /* Card around the embed for visual consistency */
+    .card {
+      margin-top: 24px;
+      background:#fff; border:1px solid var(--border); border-radius: var(--radius);
+      overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    /* Streamlit iframe */
+    #st-app {
+      width: 100%; border: none; display: block;
+      /* Fallback: at least viewport minus header + paddings; resizer will expand further */
+      min-height: calc(100vh - var(--header-h) - 120px);
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 28px 0;
+      padding: 28px 0 48px;
       color: var(--muted);
       font-size: 14px;
       background: var(--surface);
@@ -68,43 +97,73 @@
   </style>
 </head>
 <body>
+
+  <!-- Site header / nav -->
   <header>
     <div class="container nav">
       <div class="brand">
         <div class="logo" aria-hidden="true">IG</div>
         <span>InvestGPT&nbsp;AI</span>
       </div>
-      <button class="menu-btn" aria-label="Toggle menu" onclick="document.querySelector('.links').classList.toggle('open')">☰ Menu</button>
+
+      <button class="menu-btn" aria-label="Toggle menu"
+              onclick="document.querySelector('.links').classList.toggle('open')">☰ Menu</button>
+
       <nav class="links" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="features.html">Features</a>
         <a href="prompt.html">How-To</a>
-        <a href="efficient-frontier.html" aria-current="page">Efficient Frontier</a>
-        <a href="dcf.html">DCF</a>
+        <a href="efficient-frontier.html">Efficient Frontier</a>
+        <a href="dcf.html" aria-current="page">DCF</a>
         <a href="about.html">About</a>
         <a href="faq.html">FAQ</a>
       </nav>
     </div>
   </header>
 
-  <main class="container section">
-    <h1 class="title" style="font-size: 32px; font-weight: 700; margin-bottom: 20px;">Efficient Frontier Explorer</h1>
-    <p style="max-width: 640px; color: var(--muted); font-size: 15px;">
-      Use this app to visualize optimal portfolio allocations and explore the trade-off between risk and return. Adjust model settings and let the AI generate insights.
+  <main class="container section" role="main">
+    <h1 class="title">Discounted Cash Flow Model</h1>
+    <p class="lead">
+      Use this AI-powered app to run DCF valuations for stocks. Adjust key inputs like revenue growth,
+      discount rate, and terminal value — and let the app do the math.
     </p>
 
-    <div style="margin-top: 30px;">
-      <iframe src="https://my-gpt-showcase-esy5grumgq2f9kvcwcqkw6.streamlit.app/?embedded=true" allowfullscreen></iframe>
+    <div class="card">
+      <!-- Keep ?embed=true to minimize Streamlit chrome -->
+      <iframe
+        id="st-app"
+        title="DCF Streamlit App"
+        src="https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app/?embed=true"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      ></iframe>
     </div>
   </main>
 
-  <footer>
+  <footer role="contentinfo">
     <p>
       Get more stock data here — 
-      <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank">Stock Analysis Pro</a>
+      <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" rel="noopener">Stock Analysis Pro</a>
     </p>
     <p style="margin-top: 10px; font-weight: 600;">Disclosure:</p>
     <p>This is not investment advice; for educational purposes only. I may earn a commission if you subscribe—at no extra cost to you.</p>
   </footer>
+
+  <!-- Parent-side auto-resizer -->
+  <script src="https://cdn.jsdelivr.net/npm/iframe-resizer/js/iframeResizer.min.js"></script>
+  <script>
+    // Security: restrict messages to your Streamlit app's origin
+    const allowedOrigins = ['https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app'];
+
+    window.addEventListener('DOMContentLoaded', function () {
+      iFrameResize({
+        log: false,
+        checkOrigin: allowedOrigins,
+        heightCalculationMethod: 'max',
+        scrollToTop: true
+      }, '#st-app');
+    });
+  </script>
 </body>
 </html>
