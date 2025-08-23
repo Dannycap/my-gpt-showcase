@@ -4,20 +4,12 @@
   <meta charset="utf-8" />
   <title>DCF Valuation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <style>
-    :root {
-      --header-height: 64px;   /* adjust if your site header is taller/shorter */
-      --page-padding: 16px;
-    }
+    :root { --header-height: 64px; --page-padding: 16px; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; width: 100%; }
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-      color: #111827; background: #f8fafc; line-height: 1.5;
-    }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; color:#111827; background:#f8fafc; }
 
-    /* Replace with your real site header/nav */
     .site-header {
       position: sticky; top: 0; z-index: 50;
       height: var(--header-height);
@@ -27,47 +19,42 @@
     }
     .brand { font-weight: 600; font-size: 1.125rem; }
 
-    .page { padding: var(--page-padding); }
+    main.page { padding: var(--page-padding); }
 
     /* Streamlit iframe */
     #st-app {
       width: 100%; border: 0; display: block;
-      /* at least a full viewport minus header + padding;
-         iframe-resizer will expand it to fit content */
+      /* at least viewport height minus header + padding;
+         iframe-resizer expands to fit content */
       min-height: calc(100vh - var(--header-height) - (var(--page-padding) * 2));
     }
 
-    /* Optional card wrapper */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 0; overflow: hidden;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px;
+      overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,0.04);
     }
 
     .site-footer {
-      color: #6b7280; font-size: 0.875rem;
-      padding: 24px var(--page-padding) 48px; text-align: center;
+      color:#6b7280; font-size:0.875rem; text-align:center;
+      padding:24px var(--page-padding) 48px;
     }
   </style>
 </head>
 <body>
-
   <header class="site-header" role="banner" aria-label="Site header">
     <div class="brand">AI-Invest — DCF</div>
-    <!-- <nav>…</nav> -->
   </header>
 
   <main class="page" role="main">
     <div class="card">
-      <!-- Keep ?embed=true to minimize Streamlit chrome -->
+      <!-- Keep ?embed=true; sandbox excludes fullscreen -->
       <iframe
         id="st-app"
         title="DCF Streamlit App"
         src="https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app/?embed=true"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
       ></iframe>
     </div>
   </main>
@@ -81,13 +68,13 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Lock this down to your app’s exact origin (good security practice)
+    // Lock to your app origin
     const allowedOrigins = ['https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app'];
 
     window.addEventListener('DOMContentLoaded', function () {
       iFrameResize({
         log: false,
-        checkOrigin: allowedOrigins,   // set to false only while testing
+        checkOrigin: allowedOrigins,
         heightCalculationMethod: 'max',
         scrollToTop: true
       }, '#st-app');
@@ -95,4 +82,3 @@
   </script>
 </body>
 </html>
-
