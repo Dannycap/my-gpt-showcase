@@ -8,9 +8,6 @@ from functools import reduce
 
 
 
-# (Optional safety: ensure the sidebar header shows)
-with st.sidebar:
-    st.header("SEC Settings")
 
 # ==============================================
 # SEC EDGAR helpers
