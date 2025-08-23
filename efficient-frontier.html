@@ -2,114 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Efficient Frontier</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Discounted Cash Flow (DCF) - InvestGPT AI</title>
-  <meta name="description" content="Run your Discounted Cash Flow analysis with the help of AI using our free DCF app." />
-  <link rel="icon" href="icon.png">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      /* same palette / spacing as your site */
-      --bg: #ffffff;
-      --surface: #f6f8fb;
-      --text: #0f172a;
-      --muted: #334155;
-      --primary: #2563eb;
-      --primary-weak: rgba(37,99,235,.10);
-      --border: #e5e7eb;
-      --radius: 14px;
-      --container: 1040px;
+    :root{
       --header-h: 64px;
+      --text-dark: #0f172a;   /* slate-900 */
+      --text: #334155;        /* slate-600 for links */
+      --text-hover: #0b1220;  /* darker hover */
+      --border: #e5e7eb;      /* slate-200 */
+      --brand-bg: #eef2ff;    /* indigo-50 */
+      --brand-fg: #3b82f6;    /* blue-500 */
+      --page-padding: 16px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-    body {
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
-      background: linear-gradient(180deg, #ffffff, #fbfdff 32%, #f7faff 100%);
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-
-    .container { max-width: var(--container); margin-inline: auto; padding: 20px; }
-
-    /* Header / nav matches the rest of the site */
-    header {
-      position: sticky; top: 0; z-index: 40;
-      background: rgba(255,255,255,.8);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav { display:flex; align-items:center; justify-content:space-between; gap: 12px; }
-    .brand { display:flex; align-items:center; gap: 10px; font-weight: 700; }
-    .logo { width: 34px; height: 34px; border-radius: 10px; background: var(--primary-weak);
-            display:grid; place-items:center; color: var(--primary); font-weight: 700; }
-    .links { display:flex; gap: 8px; align-items:center; }
-    .links a {
-      padding: 8px 10px; color: var(--muted);
-      border-radius: 10px; border: 1px solid transparent;
-    }
-    .links a:hover, .links a:focus-visible { color: var(--text); border-color: var(--border); }
-    .links a[aria-current="page"] {
-      color: var(--text); background: #fff; border-color: var(--border);
-    }
-    .menu-btn { display:none; border:1px solid var(--border); background:#fff; padding:8px 10px; border-radius:10px; }
-    @media (max-width: 760px) {
-      .menu-btn { display:inline-flex; }
-      .links { display:none; position:absolute; inset:64px 16px auto 16px;
-               flex-direction:column; background:#fff; border:1px solid var(--border);
-               border-radius:14px; padding:10px; }
-      .links.open { display:flex; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;width:100%}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:var(--text-dark);
+      background:#f8fafc; line-height:1.5;
     }
 
-    /* Page */
-    .section { padding: 48px 0; }
-    .title { font-size: 32px; font-weight: 700; margin-bottom: 20px; }
-    .lead  { max-width: 640px; color: var(--muted); font-size: 15px; }
-
-    /* Card around the embed for visual consistency */
-    .card {
-      margin-top: 24px;
-      background:#fff; border:1px solid var(--border); border-radius: var(--radius);
-      overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    /* Header */
+    .site-header{
+      position:sticky;top:0;z-index:50;
+      height:var(--header-h);
+      background:#fff;border-bottom:1px solid var(--border);
     }
 
-    /* Streamlit iframe */
-    #st-app {
-      width: 100%; border: none; display: block;
-      /* Fallback: at least viewport minus header + paddings; resizer will expand further */
-      min-height: calc(100vh - var(--header-h) - 120px);
+    .nav-wrap{
+      height:100%;
+      max-width:1200px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:0 20px;
     }
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0 48px;
-      color: var(--muted);
-      font-size: 14px;
-      background: var(--surface);
-      text-align: center;
+    /* brand */
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      text-decoration:none;color:var(--text-dark)
     }
-    footer a { color: var(--muted); text-decoration: underline; }
-    footer a:hover { color: var(--text); }
+    .logo{
+      display:inline-grid;place-items:center;
+      width:40px;height:40px;border-radius:12px;
+      background:var(--brand-bg);
+      font-weight:800;color:var(--brand-fg);
+      letter-spacing:0.5px;
+    }
+    .brand-name{font-weight:700;font-size:1.125rem}
+
+    /* nav links */
+    .nav-links{
+      display:flex;align-items:center;gap:36px;
+    }
+    .nav-links a{
+      color:var(--text);text-decoration:none;font-size:1.125rem;
+      transition:color .15s ease;
+    }
+    .nav-links a:hover{color:var(--text-hover)}
+    .nav-links a[aria-current="page"]{
+      color:var(--text-dark);
+    }
+
+    /* hamburger (hidden on desktop) */
+    .menu-btn{
+      display:none;border:0;background:transparent;
+      font-size:1.1rem;line-height:1;color:var(--text-dark);
+    }
+
+    /* responsive */
+    @media (max-width: 900px){
+      .menu-btn{display:block}
+      .nav-links{
+        position:absolute;right:20px;top:calc(var(--header-h) - 6px);
+        background:#fff;border:1px solid var(--border);border-radius:12px;
+        padding:10px 12px;display:none;flex-direction:column;gap:8px;
+        box-shadow:0 8px 24px rgba(0,0,0,.06);
+      }
+      .nav-links.open{display:flex}
+    }
+
+    /* Page + iframe */
+    .page{padding:var(--page-padding)}
+    #st-app{
+      width:100%;border:0;display:block;
+      min-height:calc(100vh - var(--header-h) - (var(--page-padding) * 2));
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:0;overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .site-footer{
+      color:#6b7280;font-size:0.875rem;
+      padding:24px var(--page-padding) 48px;text-align:center;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Site header / nav -->
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">IG</div>
-        <span>InvestGPT&nbsp;AI</span>
-      </div>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html" aria-label="InvestGPT AI home">
+        <span class="logo" aria-hidden="true">IG</span>
+        <span class="brand-name">InvestGPT AI</span>
+      </a>
 
       <button class="menu-btn" aria-label="Toggle menu"
-              onclick="document.querySelector('.links').classList.toggle('open')">☰ Menu</button>
+        onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        ☰
+      </button>
 
-      <nav class="links" aria-label="Primary">
+      <nav class="nav-links" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="features.html">Features</a>
         <a href="prompt.html">How-To</a>
@@ -121,39 +132,29 @@
     </div>
   </header>
 
-  <main class="container section" role="main">
-    <h1 class="title">Discounted Cash Flow Model</h1>
-    <p class="lead">
-      Use this AI-powered app to run DCF valuations for stocks. Adjust key inputs like revenue growth,
-      discount rate, and terminal value — and let the app do the math.
-    </p>
-
+  <!-- Main -->
+  <main class="page" role="main">
     <div class="card">
-      <!-- Keep ?embed=true to minimize Streamlit chrome -->
       <iframe
         id="st-app"
         title="DCF Streamlit App"
-        src="https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app/?embed=true"
+        src="https://my-gpt-showcase-esy5grumgq2f9kvcwcqkw6.streamlit.app//?embed=true"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
       ></iframe>
     </div>
   </main>
 
-  <footer role="contentinfo">
-    <p>
-      Get more stock data here — 
-      <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" rel="noopener">Stock Analysis Pro</a>
-    </p>
-    <p style="margin-top: 10px; font-weight: 600;">Disclosure:</p>
-    <p>This is not investment advice; for educational purposes only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    © <span id="year"></span> AI-Invest. All rights reserved.
   </footer>
 
-  <!-- Parent-side auto-resizer -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/iframe-resizer/js/iframeResizer.min.js"></script>
   <script>
-    // Security: restrict messages to your Streamlit app's origin
+    document.getElementById('year').textContent = new Date().getFullYear();
+
     const allowedOrigins = ['https://my-gpt-showcase-fvpplkp2as85o2byi3fzkq.streamlit.app'];
 
     window.addEventListener('DOMContentLoaded', function () {
