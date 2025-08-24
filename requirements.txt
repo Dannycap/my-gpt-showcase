@@ -4,3 +4,6 @@ numpy
 skfolio
 plotly
 openai
+fastapi
+uvicorn
+scikit-learn

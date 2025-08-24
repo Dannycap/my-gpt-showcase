@@ -44,7 +44,6 @@ enter a valid OpenAI API key in the sidebar. If left blank, the chat
 feature will show an informative message instead of calling the API.
 """
 
-import os
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -241,16 +240,7 @@ def chat_with_model(
 # =============================================================================
 def main() -> None:
     # Configure page (must be first Streamlit call)
-    icon_path = "icon.png"
-    if os.path.exists(icon_path):
-        st.set_page_config(
-            page_title="Efficient Frontier Explorer",
-            page_icon=icon_path,
-            layout="wide",
-        )
-        st.image(icon_path, width=80)
-    else:
-        st.set_page_config(page_title="Efficient Frontier Explorer", layout="wide")
+    st.set_page_config(page_title="Efficient Frontier Explorer", layout="wide")
 
     st.title("Efficient Frontier Explorer")
     st.write("Explore the efficient frontier using your own data or sample data.")
