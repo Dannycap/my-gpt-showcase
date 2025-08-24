@@ -1,0 +1,30 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+header {
+  background: linear-gradient(90deg, #1e3a8a, #2563eb) !important;
+}
+
+header .text-xl {
+  color: #ffffff !important;
+}
+
+header nav a {
+  color: #e0e7ff !important;
+  transition: color 0.2s;
+}
+
+header nav a.text-blue-600 {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+header nav a:hover {
+  color: #ffffff !important;
+}
+
+footer {
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
