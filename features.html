@@ -1,28 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Features - AI-Powered Investment Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center font-inter">
+  <meta charset="utf-8" />
+  <title>Efficient Frontier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <header class="fixed top-0 w-full bg-white shadow z-10">
-    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
-      <div class="text-xl font-bold text-gray-800">AI-Invest</div>
-      <nav class="space-x-4 text-sm font-medium">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-blue-600 font-semibold">Features</a>
-        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
-        <a href="efficient-frontier.html" class="text-gray-700 hover:text-blue-600">Efficient Frontier</a>
-        <a href="dcf.html" class="text-gray-700 hover:text-blue-600">DCF</a>
-        <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
-        <a href="faq.html" class="text-gray-700 hover:text-blue-600">FAQ</a>
+  <style>
+    :root{
+      --header-h: 64px;
+      --text-dark: #0f172a;   /* slate-900 */
+      --text: #334155;        /* slate-600 for links */
+      --text-hover: #0b1220;  /* darker hover */
+      --border: #e5e7eb;      /* slate-200 */
+      --brand-bg: #eef2ff;    /* indigo-50 */
+      --brand-fg: #3b82f6;    /* blue-500 */
+      --page-padding: 16px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;width:100%}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:var(--text-dark);
+      background:#f8fafc; line-height:1.5;
+    }
+
+    /* Header */
+    .site-header{
+      position:sticky;top:0;z-index:50;
+      height:var(--header-h);
+      background:#fff;border-bottom:1px solid var(--border);
+    }
+
+    .nav-wrap{
+      height:100%;
+      max-width:1200px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:0 20px;
+    }
+
+    /* brand */
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      text-decoration:none;color:var(--text-dark)
+    }
+    .logo{
+      display:inline-grid;place-items:center;
+      width:40px;height:40px;border-radius:12px;
+      background:var(--brand-bg);
+      font-weight:800;color:var(--brand-fg);
+      letter-spacing:0.5px;
+    }
+    .brand-name{font-weight:700;font-size:1.125rem}
+
+    /* nav links */
+    .nav-links{
+      display:flex;align-items:center;gap:36px;
+    }
+    .nav-links a{
+      color:var(--text);text-decoration:none;font-size:1.125rem;
+      transition:color .15s ease;
+    }
+    .nav-links a:hover{color:var(--text-hover)}
+    .nav-links a[aria-current="page"]{
+      color:var(--text-dark);
+    }
+
+    /* hamburger (hidden on desktop) */
+    .menu-btn{
+      display:none;border:0;background:transparent;
+      font-size:1.1rem;line-height:1;color:var(--text-dark);
+    }
+
+    /* responsive */
+    @media (max-width: 900px){
+      .menu-btn{display:block}
+      .nav-links{
+        position:absolute;right:20px;top:calc(var(--header-h) - 6px);
+        background:#fff;border:1px solid var(--border);border-radius:12px;
+        padding:10px 12px;display:none;flex-direction:column;gap:8px;
+        box-shadow:0 8px 24px rgba(0,0,0,.06);
+      }
+      .nav-links.open{display:flex}
+    }
+
+    /* Page + iframe */
+    .page{padding:var(--page-padding)}
+    #st-app{
+      width:100%;border:0;display:block;
+      min-height:calc(100vh - var(--header-h) - (var(--page-padding) * 2));
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:0;overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .site-footer{
+      color:#6b7280;font-size:0.875rem;
+      padding:24px var(--page-padding) 48px;text-align:center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html" aria-label="InvestGPT AI home">
+        <span class="logo" aria-hidden="true">IG</span>
+        <span class="brand-name">InvestGPT AI</span>
+      </a>
+
+      <button class="menu-btn" aria-label="Toggle menu"
+        onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        ☰
+      </button>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="prompt.html">How-To</a>
+        <a href="efficient-frontier.html">Efficient Frontier</a>
+        <a href="dcf.html" aria-current="page">DCF</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
       </nav>
     </div>
   </header>
