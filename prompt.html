@@ -1,104 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>How-To Guide - AI Investment Finance</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <title>How-To Guide — InvestGPT AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root{
+      --header-h: 64px;
+      --text-dark: #0f172a;   /* slate-900 */
+      --text: #334155;        /* slate-600 */
+      --text-hover: #0b1220;  /* darker hover */
+      --border: #e5e7eb;      /* slate-200 */
+      --brand-bg: #eef2ff;    /* indigo-50 */
+      --brand-fg: #3b82f6;    /* blue-500 */
+      --page-padding: 16px;
+
+      --container: 1100px;
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(0,0,0,0.04);
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 20px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-8: 40px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;width:100%}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:var(--text-dark);
+      background:#f8fafc;
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Header */
+    .site-header{
+      position:sticky;top:0;z-index:50;
+      height:var(--header-h);
+      background:#fff;border-bottom:1px solid var(--border);
+    }
+    .nav-wrap{
+      height:100%;
+      max-width:var(--container);margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:var(--space-3);padding:0 var(--space-4);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      text-decoration:none;color:var(--text-dark)
+    }
+    .logo{
+      display:inline-grid;place-items:center;
+      width:40px;height:40px;border-radius:12px;
+      background:var(--brand-bg);
+      font-weight:800;color:var(--brand-fg);
+      letter-spacing:0.5px;
+    }
+    .brand-name{font-weight:700;font-size:1.125rem}
+
+    .nav-links{display:flex;align-items:center;gap:36px}
+    .nav-links a{
+      color:var(--text);text-decoration:none;font-size:1.05rem;
+      transition:color .15s ease;
+    }
+    .nav-links a:hover{color:var(--text-hover)}
+    .nav-links a[aria-current="page"]{color:var(--text-dark)}
+
+    .menu-btn{
+      display:none;border:0;background:transparent;
+      font-size:1.3rem;line-height:1;color:var(--text-dark);
+      padding:6px 8px;border-radius:8px;
+    }
+    .menu-btn:focus{outline:2px solid var(--border);outline-offset:2px}
+
+    /* Layout */
+    .container{max-width:var(--container);margin:0 auto;padding:0 var(--space-4)}
+    .page{padding:var(--space-6) var(--page-padding)}
+    .stack > * + *{margin-top:var(--space-6)}
+
+    /* Headings */
+    .kicker{
+      font-size:.875rem;letter-spacing:.08em;text-transform:uppercase;
+      color:#6b7280;margin-bottom:var(--space-2)
+    }
+    .h1{font-size:clamp(1.5rem, 2.2vw + 1rem, 2rem);font-weight:800;margin:0;text-align:center}
+    .lead{color:#475569;max-width:70ch;margin:var(--space-2) auto 0;text-align:center}
+
+    /* Sections */
+    .section{padding:var(--space-6) 0}
+    .section-header{margin-bottom:var(--space-5)}
+    .divider{height:1px;background:var(--border);margin:var(--space-6) 0}
+
+    /* Card */
+    .card{
+      background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);overflow:hidden;
+    }
+    .card-body{padding:var(--space-4) var(--space-4)}
+    .card h2{font-size:1.25rem;margin:0 0 var(--space-2);font-weight:700}
+    .card h3{font-size:1.05rem;margin:var(--space-3) 0 var(--space-1);font-weight:700}
+    .card p{margin:0 0 var(--space-2);color:#334155}
+    .card ul{margin:var(--space-2) 0 var(--space-2) var(--space-3)}
+    .card li{margin:0 0 6px}
+    .card img{
+      display:block;max-width:100%;height:auto;
+      border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
+      margin:var(--space-3) auto;
+    }
+
+    /* Footer */
+    .site-footer{
+      color:#6b7280;font-size:0.9375rem;background:#fff;
+      border-top:1px solid var(--border);
+    }
+    .footer-inner{
+      max-width:var(--container);margin:0 auto;padding:var(--space-6) var(--space-4) var(--space-8);
+      text-align:center;
+    }
+    .footer-inner a{color:var(--brand-fg);text-decoration:underline}
+    .footer-title{
+      margin:var(--space-3) 0 var(--space-2);
+      color:#334155; font-weight:600; letter-spacing:normal; text-transform:none;
+    }
+
+    /* Responsive nav */
+    @media (max-width: 900px){
+      .menu-btn{display:block}
+      .nav-links{
+        position:absolute;right:20px;top:calc(var(--header-h) - 6px);
+        background:#fff;border:1px solid var(--border);border-radius:12px;
+        padding:10px 12px;display:none;flex-direction:column;gap:8px;
+        box-shadow:0 8px 24px rgba(0,0,0,.06);
+      }
+      .nav-links.open{display:flex}
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col items-center">
+<body>
 
   <!-- Header -->
-  <header class="fixed top-0 w-full bg-white shadow-sm z-10">
-    <div class="max-w-4xl mx-auto flex items-center justify-between p-4">
-      <div class="text-xl font-semibold">AI-Invest</div>
-      <nav class="space-x-4">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
-        <a href="prompt.html" class="text-gray-700 hover:text-blue-600">How-To</a>
-        <a href="efficient-frontier.html" class="text-blue-600 font-medium">Efficient Frontier</a>
-        <a href="dcf.html" class="text-blue-600 font-medium">DCF</a>
-        <a href="about.html" class="text-blue-600 font-medium">About</a>
-        <a href="faq.html" class="text-blue-600 font-medium">FAQ</a>
+  <header class="site-header" role="banner">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html" aria-label="InvestGPT AI home">
+        <span class="logo" aria-hidden="true">IG</span>
+        <span class="brand-name">InvestGPT AI</span>
+      </a>
+
+      <button class="menu-btn" aria-label="Toggle menu"
+        onclick="document.querySelector('.nav-links').classList.toggle('open')">
+        ☰
+      </button>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="prompt.html" aria-current="page">How-To</a>
+        <a href="efficient-frontier.html">Efficient Frontier</a>
+        <a href="dcf.html">DCF</a>
+        <a href="about.html">About</a>
+        <a href="faq.html">FAQ</a>
       </nav>
     </div>
   </header>
 
-  <main class="pt-24 w-full max-w-4xl p-4 space-y-12">
-    <h1 class="text-3xl font-bold text-center">How-To Guide for Investment Finance</h1>
+  <!-- Main -->
+  <main class="page">
+    <div class="container stack">
 
-    <!-- Section Cards -->
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-semibold mb-4">🧠 Run Deep Research with AI Tools</h2>
-      <img src="Screenshot 2025-05-30 221227.png" alt="Deep Research Tools UI" class="rounded border shadow w-64 mx-auto mb-4">
-      <p class="text-sm text-gray-700 text-center">The tools available within ChatGPT for investment workflows now include:</p>
-      <ul class="list-disc list-inside text-sm space-y-1 mt-4">
-        <li><strong>Create an image:</strong> Visualize concepts, strategies, or charts for presentations or reports.</li>
-        <li><strong>Search the web:</strong> Access real-time financial news, macroeconomic data, or company updates.</li>
-        <li><strong>Write or code:</strong> Generate Python, SQL, or Markdown scripts for data analysis and reporting.</li>
-        <li><strong>Run deep research:</strong> Combine reasoning, summarization, and citations to synthesize in-depth financial insights.</li>
-      </ul>
-    </section>
+      <!-- Intro -->
+      <section class="section section-header">
+        <span class="kicker" style="display:block; text-align:center;">Guide</span>
+        <h1 class="h1">How-To Guide for Investment Finance</h1>
+        <p class="lead">Practical prompts, workflows, and model tips for research, screening, and valuation—using the same UI rhythm and colors as the rest of the site.</p>
+        <div class="divider" aria-hidden="true"></div>
+      </section>
 
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-4">Choosing the Right GPT Model for Finance</h2>
-      <div class="space-y-6">
-        <div>
-          <h3 class="text-lg font-semibold mb-2">🔍 Use Case 1: Analyzing a Stock</h3>
-          <ul class="list-disc list-inside text-sm mb-2">
-            <li>Extracting financial ratios from 10-Ks or earnings transcripts</li>
-            <li>Evaluating price performance, volatility, or comparing to benchmarks</li>
-            <li>Writing investment theses or summarizing financial statements</li>
-          </ul>
-          <p class="text-sm"><strong>Best Model:</strong> GPT-4 Turbo — handles complex financial documents efficiently</p>
-        </div>
+      <!-- Cards -->
+      <section class="section stack" aria-labelledby="howto-sections">
 
-        <div>
-          <h3 class="text-lg font-semibold mb-2">💬 Use Case 2: Sentiment Analysis</h3>
-          <ul class="list-disc list-inside text-sm mb-2">
-            <li>Interpret investor tone and comments from forums or social media</li>
-            <li>Summarize bullish/bearish perspectives and sector shifts</li>
-          </ul>
-          <p class="text-sm"><strong>Best Model:</strong> GPT-4 Turbo or GPT-4 — captures nuance and sarcasm better</p>
-        </div>
+        <!-- Deep Research -->
+        <article class="card" id="deep-research">
+          <div class="card-body">
+            <h2>🧠 Run Deep Research with AI Tools</h2>
+            <img src="Screenshot 2025-05-30 221227.png" alt="Deep Research Tools UI">
+            <p class="text-sm">The tools available within ChatGPT for investment workflows now include:</p>
+            <ul>
+              <li><strong>Create an image:</strong> Visualize concepts, strategies, or charts for presentations or reports.</li>
+              <li><strong>Search the web:</strong> Access real-time financial news, macroeconomic data, or company updates.</li>
+              <li><strong>Write or code:</strong> Generate Python, SQL, or Markdown for data analysis and reporting.</li>
+              <li><strong>Run deep research:</strong> Combine reasoning, summarization, and citations to synthesize in-depth insights.</li>
+            </ul>
+          </div>
+        </article>
 
-        <div>
-          <h3 class="text-lg font-semibold mb-2">💼 Use Case 3: Portfolio Screening</h3>
-          <ul class="list-disc list-inside text-sm mb-2">
-            <li>Screen stocks (e.g. P/E < 15, ROE > 10%)</li>
-            <li>Generate summaries or help draft investment memos</li>
-          </ul>
-          <p class="text-sm"><strong>Best Model:</strong> GPT-3.5 — fast, cost-effective for structured tasks</p>
-        </div>
-      </div>
-    </section>
+        <!-- Model Choice -->
+        <article class="card" id="model-choice">
+          <div class="card-body">
+            <h2>Choosing the Right GPT Model for Finance</h2>
 
-    <section class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-semibold mb-2">Prompting Techniques</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li>“Act as an equity analyst with 10 years’ experience.”</li>
-        <li>“List the top 5 ETFs by 5-year annualized return.”</li>
-        <li>“Summarize a 10-K in 3 bullet points.”</li>
-        <li>“Compare valuations using DCF assumptions.”</li>
-        <li>“Report format: • Summary • Metrics • Recommendation.”</li>
-      </ul>
-    </section>
+            <h3>🔍 Use Case 1: Analyzing a Stock</h3>
+            <ul>
+              <li>Extract financial ratios from 10-Ks or earnings transcripts</li>
+              <li>Evaluate price performance, volatility, or benchmark comps</li>
+              <li>Draft investment theses or summarize statements</li>
+            </ul>
+            <p><strong>Best Model:</strong> GPT-4 Turbo — handles complex financial documents efficiently.</p>
 
-    <!-- Footer -->
-    <footer class="bg-white p-4 rounded-lg shadow-inner text-sm text-gray-600 text-center">
-      <p class="font-semibold">Sources:</p>
-      <ul class="list-inside list-disc ml-4 mb-4 text-left inline-block">
-        <li><a href="https://medium.com/prompt-engine/how-i-use-chatgpt-for-investing-8010dab737fa" target="_blank" class="text-blue-600 hover:underline">How I Use ChatGPT for Investing</a></li>
-        <li><a href="http://arxiv.org/abs/2302.11382v1" target="_blank" class="text-blue-600 hover:underline">A Prompt Pattern Catalog (arXiv)</a></li>
-      </ul>
-      <p>Get more stock data here — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
-      <p class="mt-2 font-semibold">Disclosure:</p>
-      <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
-    </footer>
+            <h3>💬 Use Case 2: Sentiment Analysis</h3>
+            <ul>
+              <li>Interpret tone from forums, social comments, and headlines</li>
+              <li>Summarize bullish/bearish perspectives and sector shifts</li>
+            </ul>
+            <p><strong>Best Model:</strong> GPT-4 Turbo or GPT-4 — better nuance/sarcasm handling.</p>
+
+            <h3>💼 Use Case 3: Portfolio Screening</h3>
+            <ul>
+              <li>Screen stocks (e.g., P/E &lt; 15, ROE &gt; 10%)</li>
+              <li>Generate summaries and draft memos</li>
+            </ul>
+            <p><strong>Best Model:</strong> GPT-3.5 — fast and cost-effective for structured tasks.</p>
+          </div>
+        </article>
+
+        <!-- Prompting -->
+        <article class="card" id="prompting">
+          <div class="card-body">
+            <h2>Prompting Techniques</h2>
+            <ul>
+              <li>“Act as an equity analyst with 10 years’ experience.”</li>
+              <li>“List the top 5 ETFs by 5-year annualized return.”</li>
+              <li>“Summarize a 10-K in 3 bullet points.”</li>
+              <li>“Compare valuations using DCF assumptions.”</li>
+              <li>“Report format: • Summary • Metrics • Recommendation.”</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Sources / Affiliate -->
+        <article class="card" id="sources">
+          <div class="card-body">
+            <h2>Sources & Disclosure</h2>
+            <p class="text-sm" style="margin-bottom:var(--space-2)">Further reading:</p>
+            <ul>
+              <li><a href="https://medium.com/prompt-engine/how-i-use-chatgpt-for-investing-8010dab737fa" target="_blank" rel="noopener" style="color:var(--brand-fg); text-decoration:underline;">How I Use ChatGPT for Investing</a></li>
+              <li><a href="http://arxiv.org/abs/2302.11382v1" target="_blank" rel="noopener" style="color:var(--brand-fg); text-decoration:underline;">A Prompt Pattern Catalog (arXiv)</a></li>
+            </ul>
+            <div class="divider" aria-hidden="true" style="margin-top:var(--space-4)"></div>
+            <p>Get more stock data — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" rel="noopener" style="color:var(--brand-fg); text-decoration:underline;">Stock Analysis Pro</a></p>
+            <p class="footer-title">Disclosure</p>
+            <p>This is not investment advice; educational purpose only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+          </div>
+        </article>
+
+      </section>
+    </div>
   </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; <span id="y"></span> InvestGPT AI. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // year in footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
