@@ -15,6 +15,18 @@
       --brand-bg: #eef2ff;    /* indigo-50 */
       --brand-fg: #3b82f6;    /* blue-500 */
       --page-padding: 16px;
+
+      /* layout rhythm */
+      --container: 1100px;
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(0,0,0,0.04);
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 20px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-8: 40px;
     }
 
     *{box-sizing:border-box}
@@ -23,6 +35,8 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
       color:var(--text-dark);
       background:#f8fafc; line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
     /* Header */
@@ -31,12 +45,11 @@
       height:var(--header-h);
       background:#fff;border-bottom:1px solid var(--border);
     }
-
     .nav-wrap{
       height:100%;
-      max-width:1200px;margin:0 auto;
+      max-width:var(--container);margin:0 auto;
       display:flex;align-items:center;justify-content:space-between;
-      gap:16px;padding:0 20px;
+      gap:var(--space-3);padding:0 var(--space-4);
     }
 
     /* brand */
@@ -54,25 +67,88 @@
     .brand-name{font-weight:700;font-size:1.125rem}
 
     /* nav links */
-    .nav-links{
-      display:flex;align-items:center;gap:36px;
-    }
+    .nav-links{display:flex;align-items:center;gap:36px}
     .nav-links a{
-      color:var(--text);text-decoration:none;font-size:1.125rem;
+      color:var(--text);text-decoration:none;font-size:1.05rem;
       transition:color .15s ease;
     }
     .nav-links a:hover{color:var(--text-hover)}
-    .nav-links a[aria-current="page"]{
-      color:var(--text-dark);
-    }
+    .nav-links a[aria-current="page"]{color:var(--text-dark)}
 
     /* hamburger (hidden on desktop) */
     .menu-btn{
       display:none;border:0;background:transparent;
-      font-size:1.1rem;line-height:1;color:var(--text-dark);
+      font-size:1.3rem;line-height:1;color:var(--text-dark);
+      padding:6px 8px;border-radius:8px;
+    }
+    .menu-btn:focus{outline:2px solid var(--border);outline-offset:2px}
+
+    /* Layout helpers */
+    .container{max-width:var(--container);margin:0 auto;padding:0 var(--space-4)}
+    .page{padding:var(--space-6) var(--page-padding)}
+    .stack > * + *{margin-top:var(--space-6)}
+
+    /* Headings */
+    .kicker{
+      font-size:.875rem;letter-spacing:.08em;text-transform:uppercase;
+      color:#6b7280;margin-bottom:var(--space-2)
+    }
+    .h1{font-size:clamp(1.5rem, 2.2vw + 1rem, 2rem);font-weight:800;margin:0}
+    .lead{color:#475569;max-width:70ch;margin-top:var(--space-2)}
+
+    /* Sections */
+    .section{padding:var(--space-6) 0}
+    .section-header{
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:var(--space-3);margin-bottom:var(--space-5)
+    }
+    .divider{
+      height:1px;background:var(--border);margin:var(--space-6) 0
     }
 
-    /* responsive */
+    /* Grid */
+    .grid{
+      display:grid;gap:var(--space-4);
+      grid-template-columns:repeat(1, minmax(0,1fr));
+    }
+    @media (min-width: 720px){
+      .grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+    }
+    @media (min-width: 1040px){
+      .grid{grid-template-columns:repeat(3, minmax(0,1fr))}
+    }
+
+    /* Card */
+    .card{
+      background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
+    }
+    .card-body{padding:var(--space-4) var(--space-4) var(--space-3)}
+    .card h3{font-size:1.05rem;margin:0 0 var(--space-1);font-weight:700}
+    .card p{margin:0 0 var(--space-2);color:#334155}
+    .card ul{margin:0 0 var(--space-3) var(--space-3)}
+    .card li{margin:0 0 6px}
+    .card-cta{
+      margin-top:auto;padding:var(--space-3) var(--space-4);
+      border-top:1px solid var(--border);background:#fff;
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .card-cta a{
+      text-decoration:none;color:var(--brand-fg);
+    }
+    .card-cta a:hover{text-decoration:underline;color:var(--text-hover)}
+
+    /* Footer */
+    .site-footer{
+      color:#6b7280;font-size:0.9375rem;background:#fff;
+      border-top:1px solid var(--border);
+    }
+    .footer-inner{
+      max-width:var(--container);margin:0 auto;padding:var(--space-6) var(--space-4) var(--space-8);
+      text-align:center;
+    }
+
+    /* Responsive nav */
     @media (max-width: 900px){
       .menu-btn{display:block}
       .nav-links{
@@ -82,26 +158,6 @@
         box-shadow:0 8px 24px rgba(0,0,0,.06);
       }
       .nav-links.open{display:flex}
-    }
-
-    /* Page + iframe */
-    .page{padding:var(--page-padding)}
-    #st-app{
-      width:100%;border:0;display:block;
-      min-height:calc(100vh - var(--header-h) - (var(--page-padding) * 2));
-    }
-
-    .card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:0;overflow:hidden;
-      box-shadow:0 1px 2px rgba(0,0,0,0.04);
-    }
-
-    .site-footer{
-      color:#6b7280;font-size:0.875rem;
-      padding:24px var(--page-padding) 48px;text-align:center;
     }
   </style>
 </head>
@@ -132,65 +188,117 @@
     </div>
   </header>
 
-  <main class="pt-24 w-full max-w-4xl p-4 space-y-8">
-    <h1 class="text-3xl font-bold text-center text-gray-900">AI-Powered GPT Tools for Investors</h1>
+  <!-- Main -->
+  <main class="page">
+    <div class="container stack">
 
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white p-6 rounded-lg shadow-md border">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">📊 ETF Comparator</h2>
-        <p class="text-sm text-gray-700 mb-2">Compare ETFs side-by-side on performance, sector exposure, fees, and more.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 mb-3">
-          <li>Returns chart, fee & sector comparison</li>
-          <li>Static data (not live)</li>
-        </ul>
-        <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" target="_blank" class="text-blue-600 hover:underline text-sm">Open ETF Comparator →</a>
-      </div>
+      <!-- Intro -->
+      <section class="section">
+        <div class="section-header" style="align-items:flex-start; flex-direction:column;">
+          <span class="kicker">Investor Tools</span>
+          <h1 class="h1">AI-Powered GPT Tools for Investors</h1>
+          <p class="lead">A curated set of analysis helpers for quick comparisons, portfolio research, and valuation workflows. These are text-based tools (not live data feeds).</p>
+        </div>
+        <div class="divider" aria-hidden="true"></div>
+      </section>
 
-      <div class="bg-white p-6 rounded-lg shadow-md border">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">🧠 Sentiment Analyst</h2>
-        <p class="text-sm text-gray-700 mb-2">Analyze market sentiment from news and social sources.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 mb-3">
-          <li>Scores, trends, bullet summaries</li>
-          <li>Text-based, no live feeds</li>
-        </ul>
-        <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" target="_blank" class="text-blue-600 hover:underline text-sm">Open Sentiment Analyst →</a>
-      </div>
+      <!-- Tools Grid -->
+      <section class="section" aria-labelledby="tools-title">
+        <h2 id="tools-title" class="kicker" style="margin-bottom:var(--space-3)">Explore the tools</h2>
 
-      <div class="bg-white p-6 rounded-lg shadow-md border">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">📈 SWOT Strategist</h2>
-        <p class="text-sm text-gray-700 mb-2">Generate SWOT analysis for companies or sectors.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 mb-3">
-          <li>Maps strengths, risks, and opportunities</li>
-        </ul>
-        <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" target="_blank" class="text-blue-600 hover:underline text-sm">Open SWOT Strategist →</a>
-      </div>
+        <div class="grid">
 
-      <div class="bg-white p-6 rounded-lg shadow-md border">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">📉 Portfolio Optimizer</h2>
-        <p class="text-sm text-gray-700 mb-2">Optimize portfolios with MPT and risk constraints.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 mb-3">
-          <li>Efficient frontier, Sharpe ratio, risk budget</li>
-        </ul>
-        <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" target="_blank" class="text-blue-600 hover:underline text-sm">Open Portfolio Optimizer →</a>
-      </div>
+          <!-- ETF Comparator -->
+          <article class="card">
+            <div class="card-body">
+              <h3>📊 ETF Comparator</h3>
+              <p>Compare ETFs side-by-side on performance, sector exposure, fees, and more.</p>
+              <ul>
+                <li>Returns chart; fee &amp; sector comparison</li>
+                <li>Static data (not live)</li>
+              </ul>
+            </div>
+            <div class="card-cta">
+              <span aria-hidden="true"></span>
+              <a href="https://chatgpt.com/g/g-683647bb3a7c8191bcf01d080e98832a-etf-comparator" target="_blank" rel="noopener">Open ETF Comparator →</a>
+            </div>
+          </article>
 
-      <div class="bg-white p-6 rounded-lg shadow-md border">
-        <h2 class="text-xl font-semibold text-gray-800 mb-1">📂 Portfolio Analysis Assistant</h2>
-        <p class="text-sm text-gray-700 mb-2">Analyze allocation, performance, and portfolio risk.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 mb-3">
-          <li>Charts, attribution, performance metrics</li>
-        </ul>
-        <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" target="_blank" class="text-blue-600 hover:underline text-sm">Open Portfolio Analysis Assistant →</a>
-      </div>
-    </section>
+          <!-- Sentiment Analyst -->
+          <article class="card">
+            <div class="card-body">
+              <h3>🧠 Sentiment Analyst</h3>
+              <p>Analyze market sentiment from news and social sources.</p>
+              <ul>
+                <li>Scores, trends, and bullet summaries</li>
+                <li>Text-based, no live feeds</li>
+              </ul>
+            </div>
+            <div class="card-cta">
+              <span></span>
+              <a href="https://chatgpt.com/g/g-6834fda7d5dc8191bbec42beb517cdbe-financial-sentiment-analyst" target="_blank" rel="noopener">Open Sentiment Analyst →</a>
+            </div>
+          </article>
+
+          <!-- SWOT Strategist -->
+          <article class="card">
+            <div class="card-body">
+              <h3>📈 SWOT Strategist</h3>
+              <p>Generate SWOT analysis for companies or sectors.</p>
+              <ul>
+                <li>Maps strengths, risks, and opportunities</li>
+              </ul>
+            </div>
+            <div class="card-cta">
+              <span></span>
+              <a href="https://chatgpt.com/g/g-6834b1859e388191844227e66e16a1d9-investment-swot-strategist" target="_blank" rel="noopener">Open SWOT Strategist →</a>
+            </div>
+          </article>
+
+          <!-- Portfolio Optimizer -->
+          <article class="card">
+            <div class="card-body">
+              <h3>📉 Portfolio Optimizer</h3>
+              <p>Optimize portfolios with MPT and risk constraints.</p>
+              <ul>
+                <li>Efficient frontier, Sharpe ratio, risk budget</li>
+              </ul>
+            </div>
+            <div class="card-cta">
+              <span></span>
+              <a href="https://chatgpt.com/g/g-68195aedf75c81918d5d82526506e8e3-portfolio-optimizer-pro-ai-investment-assistant" target="_blank" rel="noopener">Open Portfolio Optimizer →</a>
+            </div>
+          </article>
+
+          <!-- Portfolio Analysis Assistant -->
+          <article class="card">
+            <div class="card-body">
+              <h3>📂 Portfolio Analysis Assistant</h3>
+              <p>Analyze allocation, performance, and portfolio risk.</p>
+              <ul>
+                <li>Charts, attribution, performance metrics</li>
+              </ul>
+            </div>
+            <div class="card-cta">
+              <span></span>
+              <a href="https://chatgpt.com/g/g-6838b98d97348191aa3c0428aa814ad2-portfolio-analysis-assistant" target="_blank" rel="noopener">Open Portfolio Analysis Assistant →</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
   </main>
 
-  <footer class="mt-12 w-full bg-white p-4 text-center text-sm text-gray-600 border-t">
-    <p>Get more stock data — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" class="text-blue-600 hover:underline">Stock Analysis Pro</a></p>
-    <p class="mt-2 font-semibold">Disclosure:</p>
-    <p>This is not investment advice. Educational use only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>Get more stock data — <a href="https://stockanalysis.com/pro/?ref=daniel" target="_blank" rel="noopener" style="color:var(--brand-fg);text-decoration:underline;">Stock Analysis Pro</a></p>
+      <p class="kicker" style="margin:var(--space-3) 0 var(--space-2); color:#334155; letter-spacing:normal; text-transform:none; font-weight:600;">Disclosure</p>
+      <p>This is not investment advice. Educational use only. I may earn a commission if you subscribe—at no extra cost to you.</p>
+    </div>
   </footer>
 
 </body>
 </html>
-
